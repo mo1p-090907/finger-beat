@@ -176,7 +176,7 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif;user-select:
 <div id="loadingOverlay" class=""><div class="spinner"></div><div class="loading-text" id="loadingText">Ready!</div></div>
 
 <!-- SCREEN: Start -->
-<div class="screen" id="startScreen">
+<div class="screen active" id="startScreen">
   <h1>FINGER BEAT</h1>
   <div class="subtitle">Hit the rhythm with your fingertips</div>
   <div class="info-box">
@@ -195,10 +195,10 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif;user-select:
 <canvas id="tutorialCanvas" width="1676" height="889" style="display: none;"></canvas>
 <button id="skipBtn" onclick="skipTutorial()" style="display: none; pointer-events: auto;">SKIP</button>
 <div class="screen" id="tutorialScreen" style="pointer-events:none">
-  <div id="tutOverlay" style="pointer-events:auto;position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:60px;z-index:16">
+  <div id="tutOverlay" style="pointer-events:auto;position:absolute;bottom:30px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;padding:0;z-index:16">
     <div style="background:rgba(5,5,20,0.75);backdrop-filter:blur(8px);border-radius:16px;padding:16px 32px;text-align:center;max-width:480px">
       <div id="tutLabel" style="font-family:&#39;Orbitron&#39;,sans-serif;font-size:2.2rem;font-weight:700;color:#a855f7;margin-bottom:6px">SLIDE NOTES</div>
-      <div id="tutHint" style="color:#cbd5e1;font-size:1.5rem;line-height:1.6">Touch the circle, then swipe to the ★ star!</div>
+      <div id="tutHint" style="color:#cbd5e1;font-size:1.5rem;line-height:1.6;white-space:pre-line">Touch the circle, then swipe to the ★ star!</div>
     </div>
     <div id="tutProgress2" style="display:flex;gap:10px;margin-top:16px">
       <div class="tut-dot2" id="tutDot0"></div>
@@ -210,7 +210,7 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif;user-select:
 </div>
 
 <!-- SCREEN: Music Select -->
-<div class="screen active" id="musicScreen">
+<div class="screen" id="musicScreen">
   <h1 style="font-size:2.6rem;margin-top:30px">SELECT MUSIC</h1>
   <div class="subtitle">Built-in demos or upload your own</div>
   <div class="music-grid" id="musicGrid"><div class="music-card" style="position: relative;"><div class="mc-emoji">⚡</div><div class="mc-name">Electropulse</div><div class="mc-info">120 BPM · 52s · Demo</div><div class="lv-badge lv-6" style="position: absolute; top: 12px; right: 12px;">LV6</div></div><div class="music-card" style="position: relative;"><div class="mc-emoji">🌙</div><div class="mc-name">Midnight Drums</div><div class="mc-info">140 BPM · 48s · Demo</div><div class="lv-badge lv-7" style="position: absolute; top: 12px; right: 12px;">LV7</div></div><div class="music-card" style="position: relative;"><div class="mc-emoji">☕</div><div class="mc-name">Afternoon Jazz</div><div class="mc-info">95 BPM · 52s · Demo</div><div class="lv-badge lv-4" style="position: absolute; top: 12px; right: 12px;">LV4</div></div><div class="music-card" style="position: relative;"><div class="mc-emoji">🤖</div><div class="mc-name">Cyberpunk</div><div class="mc-info">128 BPM · 48s · Demo</div><div class="lv-badge lv-6" style="position: absolute; top: 12px; right: 12px;">LV6</div></div><div class="music-card" style="position: relative;"><div class="mc-emoji">🎵</div><div class="mc-name">think about it</div><div class="mc-info">100 BPM · 80% match · 184.189375s · momimomomi</div><div class="lv-badge lv-7" style="position: absolute; top: 12px; right: 12px;">LV7</div></div><div class="music-card upload-card"><div class="mc-emoji">📂</div><div>Upload Your Music<br><small>MP3 / WAV</small></div></div></div>
@@ -1579,8 +1579,8 @@ resizeTutorialCanvas();
 
 const TUT_STEP_LABELS = ['TAP NOTES', 'MORE TAPS', 'SLIDE NOTES', 'HOLD NOTES'];
 const TUT_STEP_HINTS = [
-  'Touch the purple circles when the ring shrinks to fit!',
-  'Try hitting multiple notes in sequence!',
+  'Tap when the ring matches the circle!\n\u2219 PERFECT = dead center  \u2219 GREAT = close  \u2219 OK = near edge  \u2219 MISS = too early/late',
+  'Hit every note to proceed!\nGreen ring = PERFECT timing  Blue = GREAT  Yellow = OK',
   'Touch the circle, then swipe to the \u2605 star!',
   'Touch the blue note and hold until the bar fills!'
 ];
@@ -1814,11 +1814,41 @@ function tutCheckMisses(elapsed) {
     if (n.type === 'hold') missTime = 800 + (n.holdDuration || 1200);
     else if (n.type === 'slide') missTime = 800 + (n.slideTime || 800);
     if (elapsed - n.time > missTime) {
-      n.missed = true;
-      if (tutSlideState && tutSlideState.note === n) tutSlideState = null;
-      if (tutHoldState && tutHoldState.note === n) tutHoldState = null;
+      // Respawn: push the note forward so user can try again
+      const delay = 2500;
+      n.time += delay;
+      n.respawnCount = (n.respawnCount || 0) + 1;
+      // Force-hit after too many retries to prevent tutorial getting stuck
+      if (n.respawnCount >= 8) {
+        n.hit = true; n.fadeOut = 1;
+        tutEffects.push({ x: n.x, y: n.y, text: 'OK - moving on!', color: '#facc15', life: 1, vy: -1.5 });
+      } else {
+        // Reset slide/hold state if this note was active
+        if (tutSlideState && tutSlideState.note === n) tutSlideState = null;
+        if (tutHoldState && tutHoldState.note === n) tutHoldState = null;
+        // Show miss feedback but don't mark as permanently missed
+        playMissSound();
+        tutEffects.push({ x: n.x, y: n.y, text: 'MISS - try again!', color: '#ef4444', life: 1, vy: -1.5 });
+      }
     }
   }
+}
+
+function drawTimingZones(x, y, noteR) {
+  // Draw concentric rings showing timing windows
+  // Outer (OK): yellow, (GREAT): blue, inner (PERFECT): green
+  const zones = [
+    { mult: 2.0, color: 'rgba(250,204,21,0.15)', border: 'rgba(250,204,21,0.35)', label: 'OK', labelAlpha: 0.5 },
+    { mult: 1.55, color: 'rgba(56,189,248,0.12)', border: 'rgba(56,189,248,0.35)', label: 'GREAT', labelAlpha: 0.6 },
+    { mult: 1.2, color: 'rgba(34,197,94,0.1)', border: 'rgba(34,197,94,0.4)', label: 'PERFECT', labelAlpha: 0.7 },
+  ];
+  for (const z of zones) {
+    tutCtx.globalAlpha = z.labelAlpha * 0.7;
+    tutCtx.beginPath(); tutCtx.arc(x, y, noteR * z.mult, 0, Math.PI * 2);
+    tutCtx.strokeStyle = z.border; tutCtx.lineWidth = 1.5; tutCtx.setLineDash([4, 4]); tutCtx.stroke();
+    tutCtx.setLineDash([]);
+  }
+  tutCtx.globalAlpha = 1;
 }
 
 function tutLoop() {
@@ -1900,7 +1930,7 @@ function tutLoop() {
       }
       // End star
       tutCtx.globalAlpha = alpha * 0.92;
-      drawStar(n.endX, n.endY, noteR * 1.2, noteR * 0.48, 5, performance.now() * 0.001);
+      drawStar(n.endX, n.endY, noteR * 1.2, noteR * 0.48, 5, performance.now() * 0.001, tutCtx);
       tutCtx.fillStyle = 'rgba(250,204,21,0.9)'; tutCtx.fill();
       tutCtx.strokeStyle = '#fde68a'; tutCtx.lineWidth = 3; tutCtx.stroke();
     } else if (n.type === 'hold') {
@@ -1929,6 +1959,8 @@ function tutLoop() {
         tutCtx.strokeStyle = '#38bdf8'; tutCtx.lineWidth = 2; tutCtx.stroke();
       }
     } else {
+      // Timing zone rings (tutorial only)
+      drawTimingZones(n.x, n.y, noteR);
       tutCtx.globalAlpha = alpha * 0.92;
       const bg = tutCtx.createRadialGradient(n.x, n.y, 0, n.x, n.y, noteR);
       bg.addColorStop(0, 'rgba(192,132,252,0.9)');
@@ -1975,8 +2007,8 @@ function tutLoop() {
   }
   tutCtx.globalAlpha = 1;
 
-  // Check if all notes done
-  if (tutNotes.every(n => n.hit || n.missed) && elapsed > 2000) {
+  // Check if all notes hit (not missed — missed notes respawn)
+  if (tutNotes.every(n => n.hit) && elapsed > 2000) {
     const waitTimes = [3500, 3200, 3500, 3500];
     if (elapsed > (waitTimes[tutStep] || 3000)) nextTutStep();
   }
@@ -2706,33 +2738,35 @@ function updateHUD() {
 // ============================================================
 //  DRAWING HELPERS
 // ============================================================
-function drawStar(cx, cy, outerR, innerR, points, rotation) {
-  ctx.beginPath();
+function drawStar(cx, cy, outerR, innerR, points, rotation, targetCtx) {
+  const c = targetCtx || ctx;
+  c.beginPath();
   for (let i = 0; i < points * 2; i++) {
     const r = i % 2 === 0 ? outerR : innerR;
     const angle = (Math.PI * i / points) - Math.PI / 2 + (rotation || 0);
     const x = cx + Math.cos(angle) * r;
     const y = cy + Math.sin(angle) * r;
-    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    if (i === 0) c.moveTo(x, y); else c.lineTo(x, y);
   }
-  ctx.closePath();
+  c.closePath();
 }
 
-function drawArrowLine(x1, y1, x2, y2, color, lineWidth) {
+function drawArrowLine(x1, y1, x2, y2, color, lineWidth, targetCtx) {
+  const c = targetCtx || ctx;
   const dx = x2 - x1, dy = y2 - y1;
   const len = Math.sqrt(dx * dx + dy * dy);
   if (len < 1) return;
   const nx = dx / len, ny = dy / len;
   const headLen = 14;
-  ctx.beginPath();
-  ctx.moveTo(x1, y1); ctx.lineTo(x2, y2);
-  ctx.strokeStyle = color; ctx.lineWidth = lineWidth; ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(x2, y2);
-  ctx.lineTo(x2 - headLen * nx + headLen * 0.4 * ny, y2 - headLen * ny - headLen * 0.4 * nx);
-  ctx.lineTo(x2 - headLen * nx - headLen * 0.4 * ny, y2 - headLen * ny + headLen * 0.4 * nx);
-  ctx.closePath();
-  ctx.fillStyle = color; ctx.fill();
+  c.beginPath();
+  c.moveTo(x1, y1); c.lineTo(x2, y2);
+  c.strokeStyle = color; c.lineWidth = lineWidth; c.stroke();
+  c.beginPath();
+  c.moveTo(x2, y2);
+  c.lineTo(x2 - headLen * nx + headLen * 0.4 * ny, y2 - headLen * ny - headLen * 0.4 * nx);
+  c.lineTo(x2 - headLen * nx - headLen * 0.4 * ny, y2 - headLen * ny + headLen * 0.4 * nx);
+  c.closePath();
+  c.fillStyle = color; c.fill();
 }
 
 // ============================================================
