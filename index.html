@@ -1353,7 +1353,7 @@ self.onmessage = function(e) {
     });
     URL.revokeObjectURL(url);
 
-    loadingText.textContent = 'Uploading to cloud...';
+    loadingText.textContent = 'Encoding audio...';
     const songId = 'comm_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6);
     const lv = calculateLevel({
       name: file.name.replace(/\.[^.]+$/, ''),
@@ -1363,9 +1363,20 @@ self.onmessage = function(e) {
     });
 
     const wavBlob = audioBufferToWav(audioBuffer);
-    const storageRef = storage.ref().child('community_audio/' + songId + '.wav');
-    await storageRef.put(wavBlob);
-    const downloadURL = await storageRef.getDownloadURL();
+    let audioURL = '';
+
+    try {
+      loadingText.textContent = 'Uploading audio (' + Math.round(wavBlob.size / 1024 / 1024) + 'MB)...';
+      const storageRef = storage.ref().child('community_audio/' + songId + '.wav');
+      await Promise.race([
+        storageRef.put(wavBlob),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Upload timeout (60s)')), 60000))
+      ]);
+      audioURL = await storageRef.getDownloadURL();
+    } catch (uploadErr) {
+      console.error('Storage upload failed:', uploadErr);
+      audioURL = '';
+    }
 
     const songData = {
       songId,
@@ -1379,10 +1390,11 @@ self.onmessage = function(e) {
       beatsCount: beatData.beats.length,
       detectedBeats: beatData.beats,
       energy: beatData.energy,
-      audioURL: downloadURL,
+      audioURL,
       createdAt: Date.now(),
     };
 
+    loadingText.textContent = 'Saving to cloud...';
     await db.collection('community_songs').doc(songId).set(songData);
 
     loadingText.textContent = 'Done!';
@@ -1460,12 +1472,21 @@ async function playCommunitySong(songId) {
     const overlay = document.getElementById('loadingOverlay');
     const loadingText = document.getElementById('loadingText');
     overlay.classList.add('active');
-    loadingText.textContent = 'Downloading audio...';
     initAudio();
-    const resp = await fetch(songData.audioURL);
-    const arrayBuf = await resp.arrayBuffer();
-    loadingText.textContent = 'Decoding audio...';
-    const audioBuffer = await audioCtx.decodeAudioData(arrayBuf);
+    let audioBuffer;
+    if (songData.audioURL) {
+      loadingText.textContent = 'Downloading audio...';
+      const resp = await fetch(songData.audioURL);
+      if (!resp.ok) throw new Error('Download failed: ' + resp.status);
+      const arrayBuf = await resp.arrayBuffer();
+      loadingText.textContent = 'Decoding audio...';
+      audioBuffer = await audioCtx.decodeAudioData(arrayBuf);
+    } else {
+      loadingText.textContent = 'Audio not available on cloud.\nAsk uploader to re-upload.';
+      overlay.classList.remove('active');
+      alert('This song has no audio file uploaded to the cloud. Only the uploader can play it locally.');
+      return;
+    }
     loadingText.textContent = 'Ready!';
     const beatData = {
       bpm: songData.bpm,
