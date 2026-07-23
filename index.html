@@ -1410,7 +1410,7 @@ self.onmessage = function(e) {
       level: lv,
       beatsCount: beatData.beats.length,
       detectedBeats: beatData.beats,
-      energy: beatData.energy,
+      energy: Array.from(beatData.energy || []),
       createdAt: Date.now(),
     };
     await db.collection('community_songs').doc(songId).set(songData);
