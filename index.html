@@ -338,6 +338,10 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif;user-select:
 
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 
 <script>
 const videoEl = document.getElementById('video');
@@ -1113,22 +1117,53 @@ self.onmessage = function(e) {
 }
 
 // ============================================================
-//  LOCAL STORAGE AUTH + DATA
+//  FIREBASE AUTH + FIRESTORE DATA
 // ============================================================
-function getOrCreateUserId() {
-  let uid = localStorage.getItem('fb_uid');
-  if (!uid) { uid = 'u_' + Date.now() + '_' + Math.random().toString(36).substring(2, 8); localStorage.setItem('fb_uid', uid); }
-  return uid;
-}
-let currentUser = { uid: getOrCreateUserId() };
+let currentUser = null;
 let userProfile = null;
+let db = null;
+let storage = null;
 
-function loadOrCreateProfile() {
-  const key = 'fb_profile_' + currentUser.uid;
-  const raw = localStorage.getItem(key);
-  if (raw) {
-    userProfile = JSON.parse(raw);
-  } else {
+async function initFirebase() {
+  firebase.initializeApp({
+    apiKey: "AIzaSyDmi5q8-0a-Eg2b_CocvMbDAyyHyYC9nGg",
+    authDomain: "mosu-3b6be.firebaseapp.com",
+    projectId: "mosu-3b6be",
+    storageBucket: "mosu-3b6be.firebasestorage.app",
+    messagingSenderId: "667744279203",
+    appId: "1:667744279203:web:bd86425aded9798aed7d16"
+  });
+  db = firebase.firestore();
+  storage = firebase.storage();
+  try {
+    const cred = await firebase.auth().signInAnonymously();
+    currentUser = { uid: cred.user.uid };
+    await loadOrCreateProfile();
+  } catch (e) {
+    console.error('Firebase auth failed:', e);
+    currentUser = { uid: 'u_' + Date.now() + '_' + Math.random().toString(36).substring(2, 8) };
+  }
+}
+
+async function loadOrCreateProfile() {
+  if (!currentUser || !db) return;
+  try {
+    const doc = await db.collection('users').doc(currentUser.uid).get();
+    if (doc.exists) {
+      userProfile = doc.data();
+    } else {
+      userProfile = {
+        name: 'Player_' + currentUser.uid.substring(0, 6),
+        createdAt: Date.now(),
+        overallHighScore: 0,
+        totalSongsPlayed: 0,
+        totalNotesHit: 0,
+        bestCombo: 0,
+      };
+      await db.collection('users').doc(currentUser.uid).set(userProfile);
+    }
+  } catch (e) {
+    console.error('Profile load failed:', e);
     userProfile = {
       name: 'Player_' + currentUser.uid.substring(0, 6),
       createdAt: Date.now(),
@@ -1137,23 +1172,18 @@ function loadOrCreateProfile() {
       totalNotesHit: 0,
       bestCombo: 0,
     };
-    localStorage.setItem(key, JSON.stringify(userProfile));
   }
 }
 
-function initFirebase() {
-  loadOrCreateProfile();
-}
-
-function saveProfileName() {
+async function saveProfileName() {
   const name = document.getElementById('profileName').value.trim();
   if (!name) return;
   userProfile.name = name;
-  localStorage.setItem('fb_profile_' + currentUser.uid, JSON.stringify(userProfile));
+  try { await db.collection('users').doc(currentUser.uid).update({ name }); } catch (e) {}
 }
 
 function loadProfile() {
-  if (!userProfile) loadOrCreateProfile();
+  if (!userProfile) return;
   document.getElementById('profileUid').textContent = 'UID: ' + currentUser.uid.substring(0, 12) + '...';
   document.getElementById('profileName').value = userProfile.name || '';
   document.getElementById('profileHighScore').textContent = Math.floor(userProfile.overallHighScore || 0);
@@ -1184,10 +1214,10 @@ function calculateLevel(track) {
 function getLevelClass(lv) { return 'lv-' + Math.max(1, Math.min(16, lv)); }
 
 // ============================================================
-//  SCORE SUBMISSION + LEADERBOARD (localStorage)
+//  SCORE SUBMISSION + LEADERBOARD (Firestore)
 // ============================================================
-function submitScore(trackName, scoreVal, accuracy, grade, maxCombo, diff) {
-  if (!currentUser) return;
+async function submitScore(trackName, scoreVal, accuracy, grade, maxCombo, diff) {
+  if (!currentUser || !db) return;
   const songId = trackName.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 40);
   const scoreData = {
     uid: currentUser.uid,
@@ -1197,22 +1227,16 @@ function submitScore(trackName, scoreVal, accuracy, grade, maxCombo, diff) {
     grade,
     maxCombo,
     diff,
+    songId,
     timestamp: Date.now(),
   };
-  // Save per-song scores
-  const scoresKey = 'fb_scores_' + songId;
-  const scores = JSON.parse(localStorage.getItem(scoresKey) || '[]');
-  scores.push(scoreData);
-  scores.sort((a, b) => b.score - a.score);
-  if (scores.length > 50) scores.length = 50;
-  localStorage.setItem(scoresKey, JSON.stringify(scores));
-  // Update profile stats
+  try { await db.collection('scores').add(scoreData); } catch (e) { console.error('Score submit failed:', e); }
   if (userProfile) {
     userProfile.overallHighScore = Math.max(userProfile.overallHighScore || 0, Math.floor(scoreVal));
     userProfile.totalSongsPlayed = (userProfile.totalSongsPlayed || 0) + 1;
     userProfile.totalNotesHit = (userProfile.totalNotesHit || 0) + (counts[300] + counts[170] + counts[100]);
     userProfile.bestCombo = Math.max(userProfile.bestCombo || 0, maxCombo);
-    localStorage.setItem('fb_profile_' + currentUser.uid, JSON.stringify(userProfile));
+    try { await db.collection('users').doc(currentUser.uid).update(userProfile); } catch (e) {}
   }
 }
 
@@ -1226,56 +1250,53 @@ function switchLBTab(tab, el) {
   else loadSongLeaderboard();
 }
 
-function loadGlobalLeaderboard() {
+async function loadGlobalLeaderboard() {
   const list = document.getElementById('lbList');
-  // Gather all scores from localStorage
-  const allScores = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key && key.startsWith('fb_scores_')) {
-      const scores = JSON.parse(localStorage.getItem(key) || '[]');
-      allScores.push(...scores);
-    }
+  list.innerHTML = '<div style="color:#64748b;padding:40px;text-align:center">Loading...</div>';
+  try {
+    const snap = await db.collection('scores').orderBy('score', 'desc').limit(50).get();
+    let html = '', rank = 0;
+    snap.forEach(doc => {
+      const s = doc.data();
+      rank++;
+      const isMe = currentUser && s.uid === currentUser.uid;
+      const rankClass = rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : '';
+      html += `<div class="lb-row${isMe ? ' me' : ''}">
+        <div class="lb-rank ${rankClass}">#${rank}</div>
+        <div class="lb-name">${s.name || 'Unknown'}</div>
+        <div class="lb-score">${Math.floor(s.score || 0)}</div>
+      </div>`;
+    });
+    list.innerHTML = html || '<div style="color:#64748b;padding:40px;text-align:center">No scores yet</div>';
+  } catch (e) {
+    list.innerHTML = '<div style="color:#ef4444;padding:20px;text-align:center">Failed to load leaderboard</div>';
   }
-  // Deduplicate by uid — keep highest score per user
-  const bestByUser = {};
-  allScores.forEach(s => {
-    if (!bestByUser[s.uid] || s.score > bestByUser[s.uid].score) bestByUser[s.uid] = s;
-  });
-  const sorted = Object.values(bestByUser).sort((a, b) => b.score - a.score).slice(0, 50);
-  let html = '', rank = 0;
-  sorted.forEach(s => {
-    rank++;
-    const isMe = currentUser && s.uid === currentUser.uid;
-    const rankClass = rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : '';
-    html += `<div class="lb-row${isMe ? ' me' : ''}">
-      <div class="lb-rank ${rankClass}">#${rank}</div>
-      <div class="lb-name">${s.name || 'Unknown'}</div>
-      <div class="lb-score">${Math.floor(s.score || 0)}</div>
-    </div>`;
-  });
-  list.innerHTML = html || '<div style="color:#64748b;padding:40px;text-align:center">No scores yet</div>';
 }
 
-function loadSongLeaderboard() {
+async function loadSongLeaderboard() {
   const songId = document.getElementById('lbSongFilter').value;
   const list = document.getElementById('lbList');
   if (!songId) { list.innerHTML = '<div style="color:#64748b;padding:40px;text-align:center">Select a song</div>'; return; }
-  const scoresKey = 'fb_scores_' + songId;
-  const scores = JSON.parse(localStorage.getItem(scoresKey) || '[]');
-  let html = '', rank = 0;
-  scores.slice(0, 50).forEach(s => {
-    rank++;
-    const isMe = currentUser && s.uid === currentUser.uid;
-    const rankClass = rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : '';
-    html += `<div class="lb-row${isMe ? ' me' : ''}">
-      <div class="lb-rank ${rankClass}">#${rank}</div>
-      <div class="lb-name">${s.name || 'Unknown'}</div>
-      <div class="lb-score">${s.score}</div>
-      <div class="lb-grade" style="color:${s.grade==='A'||s.grade==='A+'||s.grade==='A**'?'#a855f7':'#94a3b8'}">${s.grade}</div>
-    </div>`;
-  });
-  list.innerHTML = html || '<div style="color:#64748b;padding:40px;text-align:center">No scores for this song</div>';
+  list.innerHTML = '<div style="color:#64748b;padding:40px;text-align:center">Loading...</div>';
+  try {
+    const snap = await db.collection('scores').where('songId', '==', songId).orderBy('score', 'desc').limit(50).get();
+    let html = '', rank = 0;
+    snap.forEach(doc => {
+      const s = doc.data();
+      rank++;
+      const isMe = currentUser && s.uid === currentUser.uid;
+      const rankClass = rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : '';
+      html += `<div class="lb-row${isMe ? ' me' : ''}">
+        <div class="lb-rank ${rankClass}">#${rank}</div>
+        <div class="lb-name">${s.name || 'Unknown'}</div>
+        <div class="lb-score">${s.score}</div>
+        <div class="lb-grade" style="color:${s.grade==='A'||s.grade==='A+'||s.grade==='A**'?'#a855f7':'#94a3b8'}">${s.grade}</div>
+      </div>`;
+    });
+    list.innerHTML = html || '<div style="color:#64748b;padding:40px;text-align:center">No scores for this song</div>';
+  } catch (e) {
+    list.innerHTML = '<div style="color:#ef4444;padding:20px;text-align:center">Failed to load scores</div>';
+  }
 }
 
 function populateSongFilter() {
@@ -1290,20 +1311,8 @@ function populateSongFilter() {
 }
 
 // ============================================================
-//  COMMUNITY SONGS (IndexedDB local storage)
+//  COMMUNITY SONGS (Firestore + Firebase Storage)
 // ============================================================
-function openCommunityDB() {
-  return new Promise((resolve, reject) => {
-    const req = indexedDB.open('CommunitySongs', 1);
-    req.onupgradeneeded = (e) => {
-      const db = e.target.result;
-      if (!db.objectStoreNames.contains('songs')) db.createObjectStore('songs', { keyPath: 'songId' });
-    };
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
-}
-
 async function handleCommunityUpload(file) {
   if (!file) return;
   const overlay = document.getElementById('loadingOverlay');
@@ -1344,7 +1353,7 @@ self.onmessage = function(e) {
     });
     URL.revokeObjectURL(url);
 
-    loadingText.textContent = 'Saving locally...';
+    loadingText.textContent = 'Uploading to cloud...';
     const songId = 'comm_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6);
     const lv = calculateLevel({
       name: file.name.replace(/\.[^.]+$/, ''),
@@ -1353,11 +1362,14 @@ self.onmessage = function(e) {
       duration: audioBuffer.duration,
     });
 
-    // Encode audio to WAV blob for storage
     const wavBlob = audioBufferToWav(audioBuffer);
+    const storageRef = storage.ref().child('community_audio/' + songId + '.wav');
+    await storageRef.put(wavBlob);
+    const downloadURL = await storageRef.getDownloadURL();
 
     const songData = {
       songId,
+      uploaderUid: currentUser.uid,
       uploaderName: userProfile ? userProfile.name : 'Unknown',
       name: file.name.replace(/\.[^.]+$/, ''),
       bpm: beatData.bpm,
@@ -1367,14 +1379,11 @@ self.onmessage = function(e) {
       beatsCount: beatData.beats.length,
       detectedBeats: beatData.beats,
       energy: beatData.energy,
+      audioURL: downloadURL,
       createdAt: Date.now(),
-      audioBlob: wavBlob,
     };
 
-    const db = await openCommunityDB();
-    const tx = db.transaction('songs', 'readwrite');
-    tx.objectStore('songs').put(songData);
-    await new Promise((resolve, reject) => { tx.oncomplete = resolve; tx.onerror = () => reject(tx.error); });
+    await db.collection('community_songs').doc(songId).set(songData);
 
     loadingText.textContent = 'Done!';
     await new Promise(r => setTimeout(r, 800));
@@ -1424,17 +1433,10 @@ async function loadCommunitySongs() {
   const grid = document.getElementById('communityGrid');
   grid.innerHTML = '<div style="color:#64748b;padding:40px;text-align:center;grid-column:1/-1">Loading...</div>';
   try {
-    const db = await openCommunityDB();
-    const tx = db.transaction('songs', 'readonly');
-    const store = tx.objectStore('songs');
-    const all = await new Promise((resolve, reject) => {
-      const req = store.getAll();
-      req.onsuccess = () => resolve(req.result || []);
-      req.onerror = () => reject(req.error);
-    });
-    all.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    const snap = await db.collection('community_songs').orderBy('createdAt', 'desc').get();
     let html = '';
-    all.forEach(s => {
+    snap.forEach(doc => {
+      const s = doc.data();
       const dur = Math.round(s.duration || 0);
       const min = Math.floor(dur / 60);
       const sec = dur % 60;
@@ -1452,20 +1454,17 @@ async function loadCommunitySongs() {
 
 async function playCommunitySong(songId) {
   try {
-    const db = await openCommunityDB();
-    const tx = db.transaction('songs', 'readonly');
-    const songData = await new Promise((resolve, reject) => {
-      const req = tx.objectStore('songs').get(songId);
-      req.onsuccess = () => resolve(req.result);
-      req.onerror = () => reject(req.error);
-    });
-    if (!songData) { alert('Song not found'); return; }
+    const doc = await db.collection('community_songs').doc(songId).get();
+    if (!doc.exists) { alert('Song not found'); return; }
+    const songData = doc.data();
     const overlay = document.getElementById('loadingOverlay');
     const loadingText = document.getElementById('loadingText');
     overlay.classList.add('active');
-    loadingText.textContent = 'Decoding audio...';
+    loadingText.textContent = 'Downloading audio...';
     initAudio();
-    const arrayBuf = await songData.audioBlob.arrayBuffer();
+    const resp = await fetch(songData.audioURL);
+    const arrayBuf = await resp.arrayBuffer();
+    loadingText.textContent = 'Decoding audio...';
     const audioBuffer = await audioCtx.decodeAudioData(arrayBuf);
     loadingText.textContent = 'Ready!';
     const beatData = {
