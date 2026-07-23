@@ -1353,7 +1353,6 @@ self.onmessage = function(e) {
     });
     URL.revokeObjectURL(url);
 
-    loadingText.textContent = 'Encoding audio...';
     const songId = 'comm_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6);
     const lv = calculateLevel({
       name: file.name.replace(/\.[^.]+$/, ''),
@@ -1362,20 +1361,19 @@ self.onmessage = function(e) {
       duration: audioBuffer.duration,
     });
 
-    const wavBlob = audioBufferToWav(audioBuffer);
     let audioURL = '';
-
     try {
-      loadingText.textContent = 'Uploading audio (' + Math.round(wavBlob.size / 1024 / 1024) + 'MB)...';
-      const storageRef = storage.ref().child('community_audio/' + songId + '.wav');
+      const ext = file.name.split('.').pop() || 'mp3';
+      loadingText.textContent = 'Uploading audio (' + Math.round(file.size / 1024 / 1024 * 10) / 10 + 'MB)...';
+      const storageRef = storage.ref().child('community_audio/' + songId + '.' + ext);
       await Promise.race([
-        storageRef.put(wavBlob),
+        storageRef.put(file),
         new Promise((_, reject) => setTimeout(() => reject(new Error('Upload timeout (60s)')), 60000))
       ]);
       audioURL = await storageRef.getDownloadURL();
     } catch (uploadErr) {
       console.error('Storage upload failed:', uploadErr);
-      audioURL = '';
+      alert('Audio upload failed: ' + uploadErr.message + '\nMake sure Firebase Storage is enabled in the console.');
     }
 
     const songData = {
