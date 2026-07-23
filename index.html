@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0050)file:///Users/momo/Desktop/motap/osu333/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Finger Beat</title>
 <style>
@@ -80,7 +80,7 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif;user-select:
 #resultScreen .result-detail{color:#94a3b8;font-size:1rem;margin-bottom:0.3rem}
 #resultScreen .result-detail span{color:#e2e8f0;font-weight:700}
 #resultScreen .grade{font-family:'Orbitron',sans-serif;font-size:6.5rem;font-weight:900;margin:1rem 0;text-shadow:0 0 40px currentColor}
-#tutorialScreen{z-index:15;background:rgba(5,5,20,0.96);backdrop-filter:blur(12px);justify-content:center;gap:0;padding:40px}
+#tutorialScreen{z-index:15;background:transparent!important;backdrop-filter:none!important;pointer-events:none;justify-content:center;gap:0;padding:0}
 #tutorialCanvas{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:14;pointer-events:none;display:none}
 #skipBtn{position:fixed;top:24px;right:30px;z-index:20;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#64748b;font-family:'Orbitron',sans-serif;font-size:.8rem;padding:10px 24px;border-radius:24px;cursor:pointer;transition:all .3s;pointer-events:none;display:none;letter-spacing:2px}
 #skipBtn:hover{border-color:rgba(168,85,247,0.5);color:#e2e8f0;box-shadow:0 0 16px rgba(168,85,247,0.15)}
@@ -93,18 +93,67 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif;user-select:
 #tutorialProgress{display:flex;gap:8px;justify-content:center;margin-top:30px}
 #tutorialProgress .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.1);transition:all .3s}
 #tutorialProgress .dot.active{background:#a855f7;box-shadow:0 0 8px rgba(168,85,247,0.5)}
+.tut-dot2{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.15);transition:all .3s}
+.tut-dot2.active{background:#a855f7;box-shadow:0 0 10px rgba(168,85,247,0.6)}
 
 .info-box{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:22px 30px;max-width:540px;text-align:center;line-height:2;color:#94a3b8;margin-bottom:24px;backdrop-filter:blur(4px)}
 .info-box .info-title{color:#a855f7;font-weight:700;font-size:1rem;letter-spacing:1px}
 .info-box b{color:#e2e8f0}
 
 @keyframes glow{0%,100%{filter:drop-shadow(0 0 12px rgba(168,85,247,0.4))}50%{filter:drop-shadow(0 0 24px rgba(168,85,247,0.7))}}
+
+/* Level badges */
+.lv-badge{display:inline-flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:700;border-radius:8px;padding:2px 8px;font-size:.75rem;letter-spacing:1px;min-width:42px}
+.lv-1,.lv-2,.lv-3{background:rgba(34,197,94,0.2);color:#22c55e;border:1px solid rgba(34,197,94,0.3)}
+.lv-4,.lv-5,.lv-6{background:rgba(56,189,248,0.2);color:#38bdf8;border:1px solid rgba(56,189,248,0.3)}
+.lv-7,.lv-8,.lv-9{background:rgba(168,85,247,0.2);color:#a855f7;border:1px solid rgba(168,85,247,0.3)}
+.lv-10,.lv-11,.lv-12{background:rgba(250,204,21,0.2);color:#facc15;border:1px solid rgba(250,204,21,0.3)}
+.lv-13,.lv-14{background:rgba(244,63,94,0.2);color:#f43f5e;border:1px solid rgba(244,63,94,0.3)}
+.lv-15,.lv-16{background:rgba(239,68,68,0.2);color:#ef4444;border:1px solid rgba(239,68,68,0.4);text-shadow:0 0 8px rgba(239,68,68,0.5)}
+
+/* Nav bar */
+.nav-bar{position:fixed;bottom:0;left:0;width:100%;z-index:12;display:flex;justify-content:center;gap:6px;padding:10px 16px;background:rgba(5,5,20,0.9);backdrop-filter:blur(12px);border-top:1px solid rgba(255,255,255,0.06)}
+.nav-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#94a3b8;font-family:'Orbitron',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:1px;padding:10px 18px;border-radius:12px;cursor:pointer;transition:all .2s}
+.nav-btn:hover,.nav-btn.active{background:rgba(168,85,247,0.15);color:#a855f7;border-color:rgba(168,88,247,0.3)}
+
+/* Profile */
+.profile-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px 36px;max-width:480px;width:90%;text-align:center;margin-top:20px}
+.profile-card input{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:10px 16px;color:#f1f5f9;font-size:1.1rem;font-family:'Inter',sans-serif;width:100%;text-align:center;outline:none;transition:border-color .2s}
+.profile-card input:focus{border-color:#a855f7}
+.profile-stat{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);color:#94a3b8;font-size:.9rem}
+.profile-stat .val{color:#e2e8f0;font-weight:700}
+
+/* Leaderboard */
+.lb-tabs{display:flex;gap:8px;margin-bottom:20px}
+.lb-tab{padding:8px 20px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#94a3b8;font-size:.85rem;cursor:pointer;font-weight:600;transition:all .2s}
+.lb-tab.active{background:rgba(168,85,247,0.15);color:#a855f7;border-color:rgba(168,85,247,0.3)}
+.lb-list{max-width:560px;width:90%;max-height:55vh;overflow-y:auto}
+.lb-row{display:flex;align-items:center;padding:12px 16px;border-radius:10px;margin-bottom:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);transition:background .2s}
+.lb-row.me{background:rgba(168,85,247,0.1);border-color:rgba(168,85,247,0.2)}
+.lb-rank{font-family:'Orbitron',sans-serif;font-weight:700;font-size:1.1rem;color:#64748b;min-width:40px}
+.lb-rank.top1{color:#facc15}.lb-rank.top2{color:#94a3b8}.lb-rank.top3{color:#cd7f32}
+.lb-name{flex:1;color:#e2e8f0;font-weight:600;margin-left:12px}
+.lb-score{font-family:'Orbitron',sans-serif;font-weight:700;color:#a855f7;margin-left:12px}
+.lb-grade{font-family:'Orbitron',sans-serif;font-weight:700;margin-left:10px;min-width:36px;text-align:center}
+
+/* Community */
+.upload-zone{border:2px dashed rgba(168,85,247,0.3);border-radius:16px;padding:40px;text-align:center;color:#94a3b8;cursor:pointer;transition:all .3s;max-width:560px;width:90%;margin-top:16px}
+.upload-zone:hover{border-color:#a855f7;background:rgba(168,85,247,0.05)}
+.upload-zone.dragging{border-color:#a855f7;background:rgba(168,85,247,0.1)}
+.community-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;max-width:920px;width:90%;margin-top:16px}
+.song-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:18px 20px;cursor:pointer;transition:all .3s}
+.song-card:hover{border-color:rgba(168,85,247,0.4);transform:translateY(-2px)}
+.song-card .song-name{font-weight:700;color:#f1f5f9;font-size:1rem}
+.song-card .song-meta{font-size:.78rem;color:#64748b;margin-top:4px}
+.song-card .song-uploader{font-size:.75rem;color:#a855f7;margin-top:6px}
+.progress-overlay{position:fixed;top:0;left:0;width:100%;height:4px;z-index:100;background:rgba(168,85,247,0.2)}
+.progress-fill{height:100%;background:#a855f7;transition:width .3s;border-radius:0 2px 2px 0}
 </style>
 </head>
 <body>
 
-<video id="video" autoplay playsinline></video>
-<canvas id="gameCanvas"></canvas>
+<video id="video" autoplay="" playsinline=""></video>
+<canvas id="gameCanvas" width="1676" height="889"></canvas>
 
 <div id="hud">
   <div id="scoreDisplay">
@@ -124,58 +173,49 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif;user-select:
 <div id="doubleLabel">2x SCORE!</div>
 <div id="fingerIndicator"></div>
 
-<div id="loadingOverlay"><div class="spinner"></div><div class="loading-text" id="loadingText">Analyzing beats...</div></div>
+<div id="loadingOverlay" class=""><div class="spinner"></div><div class="loading-text" id="loadingText">Ready!</div></div>
 
 <!-- SCREEN: Start -->
-<div class="screen active" id="startScreen">
+<div class="screen" id="startScreen">
   <h1>FINGER BEAT</h1>
   <div class="subtitle">Hit the rhythm with your fingertips</div>
   <div class="info-box">
     <div class="info-title">HOW TO PLAY</div>
     Your webcam tracks your fingers in real time.<br>
     Point <b>any finger</b> at the shrinking circle to hit the beat!<br>
+    <b style="color:#facc15">Slide</b> notes: swipe from the small circle to the star.<br>
+    <b style="color:#60a5fa">Hold</b> notes: press and keep your finger down until the bar fills.<br>
     Supports <b>multi-finger play</b> on both hands simultaneously.<br>
     Upload your own music for custom beatmaps.
   </div>
   <button class="btn-primary" onclick="showTutorial()">START</button>
 </div>
 
-<!-- SCREEN: Tutorial -->
-<canvas id="tutorialCanvas"></canvas>
-<button id="skipBtn" onclick="skipTutorial()">SKIP</button>
-<div class="screen" id="tutorialScreen">
-  <div class="tutorial-step active" id="tutStep0">
-    <h2>How to Play</h2>
-    <p>Your webcam tracks your <span class="key">fingertips</span> in real time.</p>
-    <p>When an approaching circle <span class="note-demo"></span> shrinks to match the note,<br>point your finger at it to <span class="key">hit the beat</span>!</p>
-    <p style="color:#64748b;margin-top:20px">Timing matters:<br><span style="color:#22c55e">PERFECT</span> &middot; <span style="color:#22c55e">GREAT</span> &middot; <span style="color:#f59e0b">OK</span></p>
+<!-- SCREEN: Tutorial (Interactive Practice) -->
+<canvas id="tutorialCanvas" width="1676" height="889" style="display: none;"></canvas>
+<button id="skipBtn" onclick="skipTutorial()" style="display: none; pointer-events: auto;">SKIP</button>
+<div class="screen" id="tutorialScreen" style="pointer-events:none">
+  <div id="tutOverlay" style="pointer-events:auto;position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:60px;z-index:16">
+    <div style="background:rgba(5,5,20,0.75);backdrop-filter:blur(8px);border-radius:16px;padding:16px 32px;text-align:center;max-width:480px">
+      <div id="tutLabel" style="font-family:&#39;Orbitron&#39;,sans-serif;font-size:2.2rem;font-weight:700;color:#a855f7;margin-bottom:6px">SLIDE NOTES</div>
+      <div id="tutHint" style="color:#cbd5e1;font-size:1.5rem;line-height:1.6">Touch the circle, then swipe to the ★ star!</div>
+    </div>
+    <div id="tutProgress2" style="display:flex;gap:10px;margin-top:16px">
+      <div class="tut-dot2" id="tutDot0"></div>
+      <div class="tut-dot2" id="tutDot1"></div>
+      <div class="tut-dot2 active" id="tutDot2"></div>
+      <div class="tut-dot2" id="tutDot3"></div>
+    </div>
   </div>
-  <div class="tutorial-step" id="tutStep1">
-    <h2>Hit Timing</h2>
-    <p>Watch the <span class="note-demo"></span> approach circle.</p>
-    <p>When it <span class="key">overlaps exactly</span> with the note — strike!</p>
-    <p style="color:#64748b;margin-top:16px">Too early or too late = lower score.<br>Missing completely breaks your <span class="key">combo</span>.</p>
-  </div>
-  <div class="tutorial-step" id="tutStep2">
-    <h2>Multi-Finger Play</h2>
-    <p>Use <span class="key">any finger</span> on either hand — even both hands at once!</p>
-    <p>Notes must be hit <span class="key">in order</span>. Hit the first note before the next one.</p>
-  </div>
-  <div class="tutorial-step" id="tutStep3">
-    <h2>Let's Go!</h2>
-    <p>Reach a <span class="key">50 combo</span> to activate <span style="color:#facc15;font-weight:700">2x SCORE</span> for 10 seconds!</p>
-    <p style="color:#64748b;margin-top:16px">Choose your music and difficulty,<br>then start <span class="key">fingering the beat</span>.</p>
-  </div>
-  <div id="tutorialProgress"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
 </div>
 
 <!-- SCREEN: Music Select -->
-<div class="screen" id="musicScreen">
+<div class="screen active" id="musicScreen">
   <h1 style="font-size:2.6rem;margin-top:30px">SELECT MUSIC</h1>
   <div class="subtitle">Built-in demos or upload your own</div>
-  <div class="music-grid" id="musicGrid"></div>
-  <button class="btn-primary" id="btnToDiff" disabled onclick="showScreen('diffScreen')">NEXT</button>
-  <button class="btn-back" onclick="showScreen('startScreen')">BACK</button>
+  <div class="music-grid" id="musicGrid"><div class="music-card" style="position: relative;"><div class="mc-emoji">⚡</div><div class="mc-name">Electropulse</div><div class="mc-info">120 BPM · 52s · Demo</div><div class="lv-badge lv-6" style="position: absolute; top: 12px; right: 12px;">LV6</div></div><div class="music-card" style="position: relative;"><div class="mc-emoji">🌙</div><div class="mc-name">Midnight Drums</div><div class="mc-info">140 BPM · 48s · Demo</div><div class="lv-badge lv-7" style="position: absolute; top: 12px; right: 12px;">LV7</div></div><div class="music-card" style="position: relative;"><div class="mc-emoji">☕</div><div class="mc-name">Afternoon Jazz</div><div class="mc-info">95 BPM · 52s · Demo</div><div class="lv-badge lv-4" style="position: absolute; top: 12px; right: 12px;">LV4</div></div><div class="music-card" style="position: relative;"><div class="mc-emoji">🤖</div><div class="mc-name">Cyberpunk</div><div class="mc-info">128 BPM · 48s · Demo</div><div class="lv-badge lv-6" style="position: absolute; top: 12px; right: 12px;">LV6</div></div><div class="music-card" style="position: relative;"><div class="mc-emoji">🎵</div><div class="mc-name">think about it</div><div class="mc-info">100 BPM · 80% match · 184.189375s · momimomomi</div><div class="lv-badge lv-7" style="position: absolute; top: 12px; right: 12px;">LV7</div></div><div class="music-card upload-card"><div class="mc-emoji">📂</div><div>Upload Your Music<br><small>MP3 / WAV</small></div></div></div>
+  <button class="btn-primary" id="btnToDiff" disabled="" onclick="showScreen(&#39;diffScreen&#39;)">NEXT</button>
+  <button class="btn-back" onclick="showScreen(&#39;startScreen&#39;)">BACK</button>
 </div>
 
 <!-- SCREEN: Difficulty -->
@@ -197,14 +237,22 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif;user-select:
     </div>
   </div>
   <div style="margin-top:30px;text-align:center">
-    <div style="color:#a855f7;font-family:'Orbitron',sans-serif;font-size:.85rem;margin-bottom:10px;letter-spacing:2px">NOTE SPEED</div>
+    <div style="color:#a855f7;font-family:&#39;Orbitron&#39;,sans-serif;font-size:.85rem;margin-bottom:10px;letter-spacing:2px">NOTE SPEED</div>
     <div style="display:flex;align-items:center;justify-content:center;gap:14px">
       <input type="range" id="speedSlider" min="5" max="30" value="12" step="1" style="width:220px;accent-color:#a855f7" oninput="updateSpeedLabel()">
-      <span id="speedLabel" style="color:#e2e8f0;font-family:'Orbitron',sans-serif;font-size:1.1rem;min-width:56px;text-align:left">1.2x</span>
+      <span id="speedLabel" style="color:#e2e8f0;font-family:&#39;Orbitron&#39;,sans-serif;font-size:1.1rem;min-width:56px;text-align:left">1.2x</span>
     </div>
   </div>
+  <div style="margin-top:20px;text-align:center">
+    <div style="color:#a855f7;font-family:&#39;Orbitron&#39;,sans-serif;font-size:.85rem;margin-bottom:10px;letter-spacing:2px">TIMING OFFSET</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:14px">
+      <input type="range" id="offsetSlider" min="-200" max="200" value="0" step="10" style="width:220px;accent-color:#38bdf8" oninput="updateOffsetLabel()">
+      <span id="offsetLabel" style="color:#e2e8f0;font-family:&#39;Orbitron&#39;,sans-serif;font-size:1.1rem;min-width:70px;text-align:left">0ms</span>
+    </div>
+    <div style="color:#475569;font-size:.75rem;margin-top:6px">Adjust if notes feel early/late. Positive = notes later, Negative = notes earlier.</div>
+  </div>
   <button class="btn-primary" onclick="launchGame()">PLAY</button>
-  <button class="btn-back" onclick="showScreen('musicScreen')">BACK</button>
+  <button class="btn-back" onclick="showScreen(&#39;musicScreen&#39;)">BACK</button>
 </div>
 
 <!-- SCREEN: Result -->
@@ -215,9 +263,78 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif;user-select:
   <div class="result-detail">Max Combo: <span id="resultCombo">0</span></div>
   <div class="result-detail">300: <span id="result300">0</span> | 170: <span id="result170">0</span> | 100: <span id="result100">0</span> | Miss: <span id="resultMiss">0</span></div>
   <div class="result-detail">Accuracy: <span id="resultAcc">0%</span></div>
-  <button class="btn-primary" style="margin-top:24px" onclick="showScreen('musicScreen');document.getElementById('hud').classList.remove('visible')">RETRY</button>
-  <button class="btn-back" onclick="showScreen('startScreen');document.getElementById('hud').classList.remove('visible')">MENU</button>
+  <div id="resultLevel" style="margin-top:12px"></div>
+  <div style="display:flex;gap:10px;margin-top:20px">
+    <button class="btn-primary" onclick="showScreen(&#39;musicScreen&#39;);document.getElementById(&#39;hud&#39;).classList.remove(&#39;visible&#39;)">RETRY</button>
+    <button class="btn-back" onclick="showScreen(&#39;leaderboardScreen&#39;);loadGlobalLeaderboard();document.getElementById(&#39;hud&#39;).classList.remove(&#39;visible&#39;)">RANK</button>
+    <button class="btn-back" onclick="showScreen(&#39;startScreen&#39;);document.getElementById(&#39;hud&#39;).classList.remove(&#39;visible&#39;)">MENU</button>
+  </div>
 </div>
+
+<!-- SCREEN: Profile -->
+<div class="screen" id="profileScreen">
+  <h1>PROFILE</h1>
+  <div class="subtitle" id="profileUid"></div>
+  <div class="profile-card">
+    <div style="margin-bottom:20px">
+      <div style="color:#94a3b8;font-size:.8rem;margin-bottom:6px;letter-spacing:1px">PLAYER NAME</div>
+      <input type="text" id="profileName" maxlength="16" placeholder="Enter name..." onchange="saveProfileName()">
+    </div>
+    <div class="profile-stat"><span>Overall High Score</span><span class="val" id="profileHighScore">0</span></div>
+    <div class="profile-stat"><span>Total Songs Played</span><span class="val" id="profileSongsPlayed">0</span></div>
+    <div class="profile-stat"><span>Total Notes Hit</span><span class="val" id="profileNotesHit">0</span></div>
+    <div class="profile-stat"><span>Best Combo</span><span class="val" id="profileBestCombo">0</span></div>
+    <div class="profile-stat"><span>Account Created</span><span class="val" id="profileCreated">-</span></div>
+  </div>
+</div>
+
+<!-- SCREEN: Leaderboard -->
+<div class="screen" id="leaderboardScreen">
+  <h1>LEADERBOARD</h1>
+  <div class="subtitle">Top players worldwide</div>
+  <div class="lb-tabs">
+    <div class="lb-tab active" onclick="switchLBTab(&#39;global&#39;,this)">GLOBAL</div>
+    <div class="lb-tab" onclick="switchLBTab(&#39;song&#39;,this)">THIS SONG</div>
+  </div>
+  <div id="lbSongSelect" style="display:none;margin-bottom:16px">
+    <select id="lbSongFilter" onchange="loadSongLeaderboard()" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:8px 14px;color:#e2e8f0;font-size:.9rem"><option value="">Select a song...</option><option value="Electropulse">⚡ Electropulse</option><option value="Midnight_Drums">🌙 Midnight Drums</option><option value="Afternoon_Jazz">☕ Afternoon Jazz</option><option value="Cyberpunk">🤖 Cyberpunk</option><option value="think_about_it">🎵 think about it</option></select>
+  </div>
+  <div class="lb-list" id="lbList"><div class="lb-row me">
+      <div class="lb-rank top1">#1</div>
+      <div class="lb-name">momimomomi</div>
+      <div class="lb-score">7544</div>
+    </div></div>
+</div>
+
+<!-- SCREEN: Community -->
+<div class="screen" id="communityScreen">
+  <h1>COMMUNITY</h1>
+  <div class="subtitle">Upload &amp; play songs from others</div>
+  <div class="upload-zone" id="uploadZone" onclick="document.getElementById(&#39;uploadInput&#39;).click()">
+    <div style="font-size:2rem;margin-bottom:8px">+</div>
+    <div style="font-weight:700;color:#e2e8f0">Upload MP3 / WAV</div>
+    <div style="font-size:.8rem;margin-top:6px">Click or drag audio files here</div>
+    <input type="file" id="uploadInput" accept="audio/*" style="display:none" onchange="handleCommunityUpload(this.files[0])">
+  </div>
+  <div class="section-title" style="margin-top:28px">COMMUNITY SONGS</div>
+  <div class="community-grid" id="communityGrid"><div class="song-card" onclick="playCommunitySong(&#39;comm_1784836518708_3h3s&#39;)">
+        <div class="song-name">think about it</div>
+        <div class="song-meta"><span class="lv-badge lv-7">LV7</span> 100 BPM · 3:04 · 306 beats</div>
+        <div class="song-uploader">by momimomomi · 80% match</div>
+      </div></div>
+</div>
+
+<!-- Nav Bar -->
+<div class="nav-bar" id="navBar" style="display: flex;">
+  <div class="nav-btn" onclick="showScreen(&#39;startScreen&#39;)" data-screen="startScreen">HOME</div>
+  <div class="nav-btn active" onclick="showScreen(&#39;musicScreen&#39;)" data-screen="musicScreen">MUSIC</div>
+  <div class="nav-btn" onclick="showScreen(&#39;communityScreen&#39;);loadCommunitySongs()" data-screen="communityScreen">COMMUNITY</div>
+  <div class="nav-btn" onclick="showScreen(&#39;leaderboardScreen&#39;);loadGlobalLeaderboard()" data-screen="leaderboardScreen">RANK</div>
+  <div class="nav-btn" onclick="showScreen(&#39;profileScreen&#39;);loadProfile()" data-screen="profileScreen">PROFILE</div>
+</div>
+
+<!-- Upload progress -->
+<div class="progress-overlay" id="uploadProgress" style="display:none"><div class="progress-fill" id="uploadProgressFill"></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
@@ -234,6 +351,23 @@ let masterGain = null;
 let cameraReady = false;
 let handsInstance = null;
 
+// roundRect polyfill for older browsers
+if (typeof CanvasRenderingContext2D !== 'undefined' && !CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+    if (typeof r === 'number') r = [r, r, r, r];
+    this.moveTo(x + r[0], y);
+    this.lineTo(x + w - r[1], y);
+    this.quadraticCurveTo(x + w, y, x + w, y + r[1]);
+    this.lineTo(x + w, y + h - r[2]);
+    this.quadraticCurveTo(x + w, y + h, x + w - r[2], y + h);
+    this.lineTo(x + r[3], y + h);
+    this.quadraticCurveTo(x, y + h, x, y + h - r[3]);
+    this.lineTo(x, y + r[0]);
+    this.quadraticCurveTo(x, y, x + r[0], y);
+    this.closePath();
+  };
+}
+
 const FINGER_COLORS = ['#a855f7','#f472b6','#38bdf8','#facc15','#fb923c','#a3e635','#f87171','#22d3ee'];
 
 let gameRunning = false;
@@ -247,6 +381,16 @@ let gameAudioSource = null;
 let energy = 0;
 let doubleActive = false;
 let doubleEndTime = 0;
+
+let slideState = null;
+let holdState = null;
+let fingerHistory = [];
+const FINGER_HISTORY_LEN = 12;
+let timingOffset = 0;
+let proximityGlow = null;
+let timingFeedbacks = [];
+let nearNoteHint = null;
+let fingerOccupied = new Map(); // finger index → { note, releaseTime }
 
 let selectedTrackIdx = -1;
 let selectedDiff = 'normal';
@@ -263,6 +407,10 @@ function updateSpeedLabel() {
   noteSpeedMultiplier = document.getElementById('speedSlider').value / 10;
   document.getElementById('speedLabel').textContent = noteSpeedMultiplier.toFixed(1) + 'x';
 }
+function updateOffsetLabel() {
+  timingOffset = parseInt(document.getElementById('offsetSlider').value);
+  document.getElementById('offsetLabel').textContent = timingOffset + 'ms';
+}
 
 function resize() { W = window.innerWidth; H = window.innerHeight; canvas.width = W; canvas.height = H; }
 window.addEventListener('resize', resize);
@@ -271,6 +419,14 @@ resize();
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   if (id) document.getElementById(id).classList.add('active');
+  const navScreens = ['startScreen','musicScreen','communityScreen','leaderboardScreen','profileScreen'];
+  const nav = document.getElementById('navBar');
+  if (nav) nav.style.display = navScreens.includes(id) ? 'flex' : 'none';
+  if (nav) {
+    nav.querySelectorAll('.nav-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.screen === id);
+    });
+  }
 }
 
 function initAudio() {
@@ -519,7 +675,7 @@ function synthLead(ctx, when, freq, dur) {
 // ============================================================
 //  ONSET DETECTION
 // ============================================================
-function detectOnsets(audioBuffer) {
+function detectBeats(audioBuffer) {
   const raw = audioBuffer.getChannelData(0);
   const sr = audioBuffer.sampleRate;
   let mono = raw;
@@ -528,13 +684,6 @@ function detectOnsets(audioBuffer) {
     mono = new Float32Array(raw.length);
     for (let i = 0; i < raw.length; i++) mono[i] = (raw[i] + ch1[i]) * 0.5;
   }
-
-  const fftN = 2048;
-  const hopSize = 256;
-  const numBins = fftN >> 1;
-
-  const win = new Float32Array(fftN);
-  for (let i = 0; i < fftN; i++) win[i] = 0.54 - 0.46 * Math.cos(2 * Math.PI * i / (fftN - 1));
 
   function doFFT(re, im) {
     const n = re.length;
@@ -565,20 +714,44 @@ function detectOnsets(audioBuffer) {
     }
   }
 
-  const padded = new Float32Array(mono.length + fftN);
-  padded.set(mono, 0);
-  const numFrames = Math.floor((padded.length - fftN) / hopSize);
-  const binHz = sr / fftN;
+  function makeWindow(n) {
+    const w = new Float32Array(n);
+    for (let i = 0; i < n; i++) w[i] = 0.54 - 0.46 * Math.cos(2 * Math.PI * i / (n - 1));
+    return w;
+  }
 
+  // Multi-resolution STFT parameters
+  const configs = [
+    { fftN: 2048, hop: 256 },
+  ];
+  const hopSize = 256;
+  const padded = new Float32Array(mono.length + 4096);
+  padded.set(mono, 0);
+
+  // 8 mel-like frequency bands
   const bands = [
-    { lo: 20,  hi: 150,  w: 0.30 },
-    { lo: 150, hi: 600,  w: 0.15 },
-    { lo: 600, hi: 4000, w: 0.30 },
-    { lo: 4000,hi: 12000,w: 0.25 },
+    { lo: 20,   hi: 80,   w: 0.20, label: 'sub-bass' },
+    { lo: 80,   hi: 160,  w: 0.25, label: 'bass' },
+    { lo: 160,  hi: 350,  w: 0.15, label: 'low-mid' },
+    { lo: 350,  hi: 800,  w: 0.10, label: 'mid' },
+    { lo: 800,  hi: 1800, w: 0.08, label: 'upper-mid' },
+    { lo: 1800, hi: 4000, w: 0.08, label: 'presence' },
+    { lo: 4000, hi: 8000, w: 0.08, label: 'brilliance' },
+    { lo: 8000, hi: 14000,w: 0.06, label: 'air' },
   ];
 
-  const prevMag = bands.map(() => new Float32Array(numBins));
-  const fluxArr = bands.map(() => []);
+  const fftN = 2048;
+  const numBins = fftN >> 1;
+  const binHz = sr / fftN;
+  const win = makeWindow(fftN);
+  const numFrames = Math.floor((padded.length - fftN) / hopSize);
+
+  // --- Step 1: Compute spectral flux + HFC + spectral centroid per frame ---
+  const prevMag = new Float32Array(numBins);
+  const fluxRaw = new Float32Array(numFrames);
+  const hfcRaw = new Float32Array(numFrames);
+  const centroidRaw = new Float32Array(numFrames);
+  const energyRaw = new Float32Array(numFrames);
   const re = new Float32Array(fftN);
   const im = new Float32Array(fftN);
 
@@ -586,113 +759,261 @@ function detectOnsets(audioBuffer) {
     const off = f * hopSize;
     for (let i = 0; i < fftN; i++) { re[i] = padded[off + i] * win[i]; im[i] = 0; }
     doFFT(re, im);
+
+    let flux = 0, hfc = 0, centNum = 0, centDen = 0, energy = 0;
     for (let b = 0; b < bands.length; b++) {
       const loBin = Math.max(1, Math.ceil(bands[b].lo / binHz));
       const hiBin = Math.min(numBins, Math.floor(bands[b].hi / binHz));
-      let flux = 0;
       for (let k = loBin; k < hiBin; k++) {
         const mag = Math.sqrt(re[k]*re[k] + im[k]*im[k]);
-        const diff = mag - prevMag[b][k];
-        flux += diff > 0 ? diff : diff * 0.3;
-        prevMag[b][k] = mag;
+        const diff = mag - prevMag[k];
+        // Per-band spectral flux (positive only, with asymmetric weighting)
+        flux += (diff > 0 ? diff : diff * 0.3) * bands[b].w;
+        // High-frequency content: weight by bin index for transient emphasis
+        hfc += mag * (k / numBins);
+        // Spectral centroid numerator
+        centNum += mag * k;
+        centDen += mag;
+        // Total energy
+        energy += mag * mag;
+        prevMag[k] = mag;
       }
-      fluxArr[b].push(flux);
     }
+    fluxRaw[f] = flux;
+    hfcRaw[f] = hfc;
+    centroidRaw[f] = centDen > 0 ? centNum / centDen : 0;
+    energyRaw[f] = Math.sqrt(energy);
   }
 
-  const norm = fluxArr.map(d => {
-    let mx = 0;
-    for (let i = 0; i < d.length; i++) if (d[i] > mx) mx = d[i];
-    return mx > 0 ? d.map(v => v / mx) : d;
-  });
+  // --- Step 2: Combine flux + HFC into onset strength with adaptive threshold ---
+  const len = numFrames;
+  let mxFlux = 0, mxHfc = 0;
+  for (let i = 0; i < len; i++) { if (fluxRaw[i] > mxFlux) mxFlux = fluxRaw[i]; if (hfcRaw[i] > mxHfc) mxHfc = hfcRaw[i]; }
+  if (mxFlux === 0) mxFlux = 1;
+  if (mxHfc === 0) mxHfc = 1;
 
-  const len = norm[0].length;
-  const combined = new Float32Array(len);
+  const onsetStr = new Float32Array(len);
   for (let i = 0; i < len; i++) {
-    for (let b = 0; b < bands.length; b++) combined[i] += norm[b][i] * bands[b].w;
+    // Combined onset strength: flux + HFC bonus for transients
+    onsetStr[i] = (fluxRaw[i] / mxFlux) * 0.7 + (hfcRaw[i] / mxHfc) * 0.3;
   }
 
-  const winSize = Math.round(1.5 * sr / hopSize);
-  const peaks = [];
+  // Adaptive threshold using cumulative mean (Yin-style)
+  const onsetPeaks = [];
+  const threshold = new Float32Array(len);
   for (let i = 1; i < len - 1; i++) {
-    const s = Math.max(0, i - winSize);
-    const e = Math.min(len, i + winSize);
+    const winL = Math.max(0, i - Math.round(0.75 * sr / hopSize));
+    const winR = Math.min(len, i + Math.round(0.75 * sr / hopSize));
     let sum = 0;
-    for (let j = s; j < e; j++) sum += combined[j];
-    const mean = sum / (e - s);
-    const thresh = mean * 1.3 + 0.002;
+    for (let j = winL; j < winR; j++) sum += onsetStr[j];
+    const mean = sum / (winR - winL);
+    threshold[i] = mean * 1.4 + 0.003;
 
-    if (combined[i] > thresh && combined[i] >= combined[i-1] && combined[i] >= combined[i+1]) {
+    if (onsetStr[i] > threshold[i] && onsetStr[i] >= onsetStr[i-1] && onsetStr[i] >= onsetStr[i+1]) {
       const t = (i * hopSize) / sr;
-      if (peaks.length === 0 || t - peaks[peaks.length-1] > 0.1) peaks.push(t);
+      if (onsetPeaks.length === 0 || t - onsetPeaks[onsetPeaks.length-1].time > 0.08) {
+        onsetPeaks.push({ time: t, strength: onsetStr[i], frame: i });
+      }
     }
   }
 
-  if (peaks.length < 4) return peaks;
+  if (onsetPeaks.length < 4) {
+    return { bpm: 0, confidence: 0, beats: onsetPeaks.map(p => ({ time: p.time, strength: 0.5, type: 'strong' })), energy: energyRaw };
+  }
 
-  const ivs = [];
-  for (let i = 1; i < peaks.length; i++) ivs.push(peaks[i] - peaks[i-1]);
-  ivs.sort((a, b) => a - b);
-  const medianIv = ivs[Math.floor(ivs.length / 2)];
+  // --- Step 3: Tempo estimation via autocorrelation ---
+  // Compute autocorrelation of onset strength for BPM 60-200
+  const minBpm = 60, maxBpm = 200;
+  const corrLen = Math.round(sr / hopSize * 60 / minBpm); // max lag for 60 BPM
+  const corr = new Float32Array(corrLen);
 
-  if (medianIv < 0.15 || medianIv > 1.5) return peaks;
+  for (let lag = Math.round(sr / hopSize * 60 / maxBpm); lag < corrLen; lag++) {
+    let s = 0, count = 0;
+    for (let i = 0; i < len - lag; i++) {
+      s += onsetStr[i] * onsetStr[i + lag];
+      count++;
+    }
+    corr[lag] = count > 0 ? s / count : 0;
+  }
 
-  const baseBpm = 60 / medianIv;
+  // Find peaks in autocorrelation corresponding to BPM 60-200
+  let bestLag = 0, bestCorr = -1;
+  for (let lag = Math.round(sr / hopSize * 60 / maxBpm); lag < corrLen; lag++) {
+    const bpm = 60 / (lag * hopSize / sr);
+    if (bpm < minBpm || bpm > maxBpm) continue;
+    // Apply a preference for common BPMs (80-160)
+    const pref = (bpm >= 80 && bpm <= 160) ? 1.1 : 1.0;
+    if (corr[lag] * pref > bestCorr) { bestCorr = corr[lag] * pref; bestLag = lag; }
+  }
 
-  const bpmRange = [];
-  for (let bpm = 60; bpm <= 200; bpm++) bpmRange.push(bpm);
-  if (baseBpm * 2 <= 200) bpmRange.push(Math.round(baseBpm * 2));
-  if (baseBpm / 2 >= 60) bpmRange.push(Math.round(baseBpm / 2));
+  const baseBpm = bestLag > 0 ? Math.round(60 / (bestLag * hopSize / sr)) : 120;
 
-  let bestBpm = Math.round(baseBpm);
-  let bestScore = 0;
-  for (const bpm of bpmRange) {
+  // Also try half-time and double-time candidates
+  const candidates = [baseBpm];
+  if (baseBpm * 2 <= 200) candidates.push(baseBpm * 2);
+  if (baseBpm / 2 >= 60) candidates.push(Math.round(baseBpm / 2));
+  if (baseBpm * 1.5 <= 200) candidates.push(Math.round(baseBpm * 1.5));
+
+  let bestBpm = baseBpm;
+  let bestBeatScore = 0;
+  for (const bpm of candidates) {
     const grid = 60 / bpm;
     let hits = 0;
-    for (const p of peaks) {
-      const pos = p % grid;
+    for (const p of onsetPeaks) {
+      const pos = p.time % grid;
       const dist = Math.min(pos, grid - pos);
       if (dist < grid * 0.25) hits++;
     }
-    const sc = hits / peaks.length;
-    if (sc > bestScore) { bestScore = sc; bestBpm = bpm; }
+    const sc = hits / onsetPeaks.length;
+    if (sc > bestBeatScore) { bestBeatScore = sc; bestBpm = bpm; }
   }
 
-  if (bestScore < 0.3) return peaks;
+  // --- Step 4: Beat tracking via dynamic programming ---
+  // Create a grid of candidate beat positions and find the best path
+  const beatGrid = 60 / bestBpm;
+  const numPhases = 8;
+  let bestPhaseScore = 0;
+  let bestPhase = 0;
 
-  const grid = 60 / bestBpm;
-  const snapped = [peaks[0]];
-  let gt = peaks[0] + grid;
-  for (let i = 1; i < peaks.length; i++) {
-    while (gt < peaks[i] - grid * 0.45) gt += grid;
-    if (Math.abs(peaks[i] - gt) < grid * 0.45) {
-      snapped.push(gt);
-      gt += grid;
+  // Find the phase that aligns best with detected onsets
+  const firstPeak = onsetPeaks[0].time;
+  for (let p = 0; p < numPhases; p++) {
+    const phaseOffset = firstPeak + (p / numPhases) * beatGrid;
+    let score = 0;
+    // Walk through the entire track on this beat grid
+    for (let t = phaseOffset; t < mono.length / sr; t += beatGrid) {
+      // Find closest onset peak within tolerance
+      const tol = beatGrid * 0.3;
+      let bestOnset = 0;
+      for (const op of onsetPeaks) {
+        const d = Math.abs(op.time - t);
+        if (d < tol && op.strength > bestOnset) bestOnset = op.strength;
+      }
+      score += bestOnset;
+    }
+    if (score > bestPhaseScore) { bestPhaseScore = score; bestPhase = phaseOffset; }
+  }
+
+  // Generate beat grid from best phase
+  const rawBeats = [];
+  const duration = mono.length / sr;
+  for (let t = bestPhase; t < duration - 0.5; t += beatGrid) {
+    if (t < 0) continue;
+    // Find closest onset peak
+    let closestPeak = null, closestDist = Infinity;
+    for (const op of onsetPeaks) {
+      const d = Math.abs(op.time - t);
+      if (d < closestDist) { closestDist = d; closestPeak = op; }
+    }
+    // Use onset time if close, otherwise use grid time
+    const time = (closestPeak && closestDist < beatGrid * 0.35) ? closestPeak.time : t;
+    const strength = (closestPeak && closestDist < beatGrid * 0.35) ? closestPeak.strength : 0.2;
+    rawBeats.push({ time, strength, frame: Math.round(time * sr / hopSize) });
+  }
+
+  if (rawBeats.length < 4) {
+    return { bpm: bestBpm, confidence: bestBeatScore, beats: rawBeats.map(b => ({ time: b.time, strength: b.strength, type: 'strong' })), energy: energyRaw };
+  }
+
+  // --- Step 5: Downbeat detection ---
+  // Classify each beat by spectral centroid + energy position in bar
+  const beatsPerBar = bestBpm < 80 ? 2 : 4;
+  for (let i = 0; i < rawBeats.length; i++) {
+    const b = rawBeats[i];
+    const frameIdx = Math.min(len - 1, Math.max(0, b.frame));
+    const centroid = centroidRaw[frameIdx] / numBins; // 0-1 normalized
+    const energy = energyRaw[frameIdx];
+    const barPos = i % beatsPerBar;
+
+    // Normalize strength using energy
+    let mx = 0;
+    for (const rb of rawBeats) if (rb.strength > mx) mx = rb.strength;
+    const normStrength = mx > 0 ? b.strength / mx : 0.5;
+
+    // Downbeat: first beat of bar + high energy + low spectral centroid (bass-heavy)
+    if (barPos === 0 && normStrength > 0.3) {
+      b.strength = Math.max(normStrength, 0.8);
+      b.type = 'downbeat';
+    }
+    // Strong beat: high energy or mid-bar accent
+    else if (normStrength > 0.5 || (barPos === Math.floor(beatsPerBar / 2) && normStrength > 0.3)) {
+      b.strength = Math.max(normStrength, 0.5);
+      b.type = 'strong';
+    }
+    // Weak beat
+    else if (normStrength > 0.15) {
+      b.strength = Math.max(normStrength, 0.2);
+      b.type = 'weak';
+    }
+    // Very weak / subdivision
+    else {
+      b.strength = Math.max(normStrength, 0.1);
+      b.type = 'subdivision';
     }
   }
 
-  if (snapped.length >= peaks.length * 0.4) return snapped;
-  return peaks;
+  // --- Step 6: Smooth energy envelope ---
+  const smoothK = Math.round(0.05 * sr / hopSize); // 50ms kernel
+  const smoothed = new Float32Array(len);
+  for (let i = 0; i < len; i++) {
+    let s = 0, c = 0;
+    for (let j = Math.max(0, i - smoothK); j <= Math.min(len - 1, i + smoothK); j++) {
+      const w = 1 - Math.abs(j - i) / (smoothK + 1);
+      s += energyRaw[j] * w;
+      c += w;
+    }
+    smoothed[i] = c > 0 ? s / c : 0;
+  }
+
+  // Normalize energy to 0-1
+  let maxE = 0;
+  for (let i = 0; i < len; i++) if (smoothed[i] > maxE) maxE = smoothed[i];
+  if (maxE > 0) for (let i = 0; i < len; i++) smoothed[i] /= maxE;
+
+  // Compute confidence from beat-to-onset alignment
+  let alignedBeats = 0;
+  for (const b of rawBeats) {
+    for (const op of onsetPeaks) {
+      if (Math.abs(op.time - b.time) < beatGrid * 0.3) { alignedBeats++; break; }
+    }
+  }
+  const confidence = Math.min(1, (alignedBeats / rawBeats.length) * (bestBeatScore + 0.3));
+
+  return {
+    bpm: bestBpm,
+    confidence: confidence,
+    beats: rawBeats.map(b => ({ time: b.time, strength: b.strength, type: b.type || 'strong' })),
+    energy: smoothed,
+  };
+}
+
+// Backward compat alias for Web Worker
+function detectOnsets(audioBuffer) {
+  const result = detectBeats(audioBuffer);
+  return result.beats.map(b => b.time);
 }
 
 // ============================================================
 //  CUSTOM MUSIC TRACK OBJECT
 // ============================================================
-function createCustomTrack(file, audioBuffer, detectedBeats) {
+function createCustomTrack(file, audioBuffer, beatData) {
   return {
     name: file.name.replace(/\.[^.]+$/, ''),
     emoji: '\uD83C\uDFB5',
     artist: 'Custom',
-    bpm: 0,
+    bpm: beatData.bpm || 0,
+    confidence: beatData.confidence || 0,
     duration: audioBuffer.duration,
     isCustom: true,
     audioBuffer: audioBuffer,
-    detectedBeats: detectedBeats,
+    detectedBeats: beatData.beats || [],
+    energyEnvelope: beatData.energy || null,
     generateBeats(diff) {
-      const beatsMs = this.detectedBeats.map(t => t * 1000);
-      if (diff === 'easy') return beatsMs.filter((_, i) => i % 4 === 0);
-      if (diff === 'hard') return beatsMs;
-      return beatsMs.filter((_, i) => i % 2 === 0);
+      const beats = this.detectedBeats;
+      if (!beats || beats.length === 0) return [];
+      if (diff === 'easy') return beats.filter(b => b.type === 'downbeat' || (b.type === 'strong' && b.strength > 0.5)).map(b => b.time * 1000);
+      if (diff === 'hard') return beats.filter(b => b.type !== 'subdivision').map(b => b.time * 1000);
+      return beats.filter(b => b.type !== 'subdivision' || b.strength > 0.3).map(b => b.time * 1000);
     },
     scheduleAudio(ctx, start) {
       const src = ctx.createBufferSource();
@@ -713,7 +1034,8 @@ function buildMusicGrid() {
   musicLibrary.forEach((track, idx) => {
     const card = document.createElement('div');
     card.className = 'music-card';
-    card.innerHTML = `<div class="mc-emoji">${track.emoji}</div><div class="mc-name">${track.name}</div><div class="mc-info">${track.bpm} BPM \u00B7 ${track.duration}s \u00B7 ${track.artist}</div>`;
+    const confLabel = track.confidence ? ` \u00B7 ${Math.round(track.confidence * 100)}% match` : '';
+    card.innerHTML = `<div class="mc-emoji">${track.emoji}</div><div class="mc-name">${track.name}</div><div class="mc-info">${track.bpm} BPM${confLabel} \u00B7 ${track.duration}s \u00B7 ${track.artist}</div>`;
     card.onclick = () => {
       grid.querySelectorAll('.music-card').forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
@@ -747,60 +1069,505 @@ async function handleFileUpload(file) {
     loadingText.textContent = 'Decoding audio data...';
     const audioBuffer = await audioCtx.decodeAudioData(arrayBuf);
 
-    loadingText.textContent = 'Analyzing beats... please wait';
+    loadingText.textContent = 'Analyzing: Computing spectral features...';
     const channels = [];
     for (let c = 0; c < audioBuffer.numberOfChannels; c++) {
       channels.push(audioBuffer.getChannelData(c));
     }
     const sr = audioBuffer.sampleRate;
 
-    const workerSrc = detectOnsets.toString() + `
+    const workerSrc = detectBeats.toString() + `
 self.onmessage = function(e) {
   const { channels, sr } = e.data;
   const mono = channels.length > 1
     ? channels[0].map((v, i) => (v + channels[1][i]) * 0.5)
     : channels[0];
-  const beats = detectOnsets({ getChannelData: () => mono, sampleRate: sr, numberOfChannels: 1 });
-  self.postMessage(beats);
+  const result = detectBeats({ getChannelData: () => mono, sampleRate: sr, numberOfChannels: 1 });
+  self.postMessage(result);
 };`;
     const blob = new Blob([workerSrc], { type: 'application/javascript' });
     const url = URL.createObjectURL(blob);
     const worker = new Worker(url);
 
-    const beats = await new Promise((resolve, reject) => {
-      const timeout = setTimeout(() => { worker.terminate(); reject(new Error('Analysis timeout')); }, 30000);
+    const beatData = await new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => { worker.terminate(); reject(new Error('Analysis timeout')); }, 60000);
       worker.onmessage = (e) => { clearTimeout(timeout); resolve(e.data); worker.terminate(); };
       worker.onerror = (e) => { clearTimeout(timeout); reject(e.error || new Error('Worker error')); worker.terminate(); };
       worker.postMessage({ channels, sr });
     });
 
     URL.revokeObjectURL(url);
-    console.log('Detected ' + beats.length + ' beats in ' + file.name);
+    loadingText.textContent = 'Done! (' + beatData.bpm + ' BPM, ' + Math.round(beatData.confidence * 100) + '% confidence)';
+    await new Promise(r => setTimeout(r, 800));
+    console.log('Detected ' + beatData.beats.length + ' beats (' + beatData.bpm + ' BPM) in ' + file.name);
 
-    const track = createCustomTrack(file, audioBuffer, beats);
+    const track = createCustomTrack(file, audioBuffer, beatData);
     musicLibrary.push(track);
-    buildMusicGrid();
-
-    const grid = document.getElementById('musicGrid');
-    const cards = grid.querySelectorAll('.music-card');
-    const lastCard = cards[cards.length - 2];
-    grid.querySelectorAll('.music-card').forEach(c => c.classList.remove('selected'));
-    lastCard.classList.add('selected');
     selectedTrackIdx = musicLibrary.length - 1;
-    document.getElementById('btnToDiff').disabled = false;
-  } catch (err) {
-    alert('Audio analysis failed: ' + err.message);
+    buildMusicGrid();
+    showScreen('diffScreen');
+  } catch (e) {
+    alert('Audio analysis failed: ' + e.message);
   }
   overlay.classList.remove('active');
 }
 
 // ============================================================
-//  TUTORIAL
+//  LOCAL STORAGE AUTH + DATA
+// ============================================================
+function getOrCreateUserId() {
+  let uid = localStorage.getItem('fb_uid');
+  if (!uid) { uid = 'u_' + Date.now() + '_' + Math.random().toString(36).substring(2, 8); localStorage.setItem('fb_uid', uid); }
+  return uid;
+}
+let currentUser = { uid: getOrCreateUserId() };
+let userProfile = null;
+
+function loadOrCreateProfile() {
+  const key = 'fb_profile_' + currentUser.uid;
+  const raw = localStorage.getItem(key);
+  if (raw) {
+    userProfile = JSON.parse(raw);
+  } else {
+    userProfile = {
+      name: 'Player_' + currentUser.uid.substring(0, 6),
+      createdAt: Date.now(),
+      overallHighScore: 0,
+      totalSongsPlayed: 0,
+      totalNotesHit: 0,
+      bestCombo: 0,
+    };
+    localStorage.setItem(key, JSON.stringify(userProfile));
+  }
+}
+
+function initFirebase() {
+  loadOrCreateProfile();
+}
+
+function saveProfileName() {
+  const name = document.getElementById('profileName').value.trim();
+  if (!name) return;
+  userProfile.name = name;
+  localStorage.setItem('fb_profile_' + currentUser.uid, JSON.stringify(userProfile));
+}
+
+function loadProfile() {
+  if (!userProfile) loadOrCreateProfile();
+  document.getElementById('profileUid').textContent = 'UID: ' + currentUser.uid.substring(0, 12) + '...';
+  document.getElementById('profileName').value = userProfile.name || '';
+  document.getElementById('profileHighScore').textContent = Math.floor(userProfile.overallHighScore || 0);
+  document.getElementById('profileSongsPlayed').textContent = userProfile.totalSongsPlayed || 0;
+  document.getElementById('profileNotesHit').textContent = userProfile.totalNotesHit || 0;
+  document.getElementById('profileBestCombo').textContent = userProfile.bestCombo || 0;
+  const created = userProfile.createdAt;
+  document.getElementById('profileCreated').textContent = created ? new Date(created).toLocaleDateString() : '-';
+}
+
+// ============================================================
+//  LEVEL RATING (LV1–LV16)
+// ============================================================
+function calculateLevel(track) {
+  const bpm = track.bpm || 120;
+  const dur = track.duration || 60;
+  const beats = track.detectedBeats ? track.detectedBeats.length : Math.round(dur * bpm / 60);
+  const notesPerSec = beats / dur;
+  let raw = 0;
+  raw += (bpm - 60) / 140 * 4;
+  raw += Math.min(notesPerSec / 4, 1) * 5;
+  raw += dur > 180 ? 2 : dur > 120 ? 1.5 : dur > 60 ? 1 : 0.5;
+  raw += (track.confidence || 0.5) * 2;
+  const lv = Math.max(1, Math.min(16, Math.round(raw)));
+  return lv;
+}
+
+function getLevelClass(lv) { return 'lv-' + Math.max(1, Math.min(16, lv)); }
+
+// ============================================================
+//  SCORE SUBMISSION + LEADERBOARD (localStorage)
+// ============================================================
+function submitScore(trackName, scoreVal, accuracy, grade, maxCombo, diff) {
+  if (!currentUser) return;
+  const songId = trackName.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 40);
+  const scoreData = {
+    uid: currentUser.uid,
+    name: userProfile ? userProfile.name : 'Unknown',
+    score: Math.floor(scoreVal),
+    accuracy: parseFloat(accuracy),
+    grade,
+    maxCombo,
+    diff,
+    timestamp: Date.now(),
+  };
+  // Save per-song scores
+  const scoresKey = 'fb_scores_' + songId;
+  const scores = JSON.parse(localStorage.getItem(scoresKey) || '[]');
+  scores.push(scoreData);
+  scores.sort((a, b) => b.score - a.score);
+  if (scores.length > 50) scores.length = 50;
+  localStorage.setItem(scoresKey, JSON.stringify(scores));
+  // Update profile stats
+  if (userProfile) {
+    userProfile.overallHighScore = Math.max(userProfile.overallHighScore || 0, Math.floor(scoreVal));
+    userProfile.totalSongsPlayed = (userProfile.totalSongsPlayed || 0) + 1;
+    userProfile.totalNotesHit = (userProfile.totalNotesHit || 0) + (counts[300] + counts[170] + counts[100]);
+    userProfile.bestCombo = Math.max(userProfile.bestCombo || 0, maxCombo);
+    localStorage.setItem('fb_profile_' + currentUser.uid, JSON.stringify(userProfile));
+  }
+}
+
+let currentLBTab = 'global';
+function switchLBTab(tab, el) {
+  currentLBTab = tab;
+  document.querySelectorAll('.lb-tab').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  document.getElementById('lbSongSelect').style.display = tab === 'song' ? 'block' : 'none';
+  if (tab === 'global') loadGlobalLeaderboard();
+  else loadSongLeaderboard();
+}
+
+function loadGlobalLeaderboard() {
+  const list = document.getElementById('lbList');
+  // Gather all scores from localStorage
+  const allScores = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith('fb_scores_')) {
+      const scores = JSON.parse(localStorage.getItem(key) || '[]');
+      allScores.push(...scores);
+    }
+  }
+  // Deduplicate by uid — keep highest score per user
+  const bestByUser = {};
+  allScores.forEach(s => {
+    if (!bestByUser[s.uid] || s.score > bestByUser[s.uid].score) bestByUser[s.uid] = s;
+  });
+  const sorted = Object.values(bestByUser).sort((a, b) => b.score - a.score).slice(0, 50);
+  let html = '', rank = 0;
+  sorted.forEach(s => {
+    rank++;
+    const isMe = currentUser && s.uid === currentUser.uid;
+    const rankClass = rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : '';
+    html += `<div class="lb-row${isMe ? ' me' : ''}">
+      <div class="lb-rank ${rankClass}">#${rank}</div>
+      <div class="lb-name">${s.name || 'Unknown'}</div>
+      <div class="lb-score">${Math.floor(s.score || 0)}</div>
+    </div>`;
+  });
+  list.innerHTML = html || '<div style="color:#64748b;padding:40px;text-align:center">No scores yet</div>';
+}
+
+function loadSongLeaderboard() {
+  const songId = document.getElementById('lbSongFilter').value;
+  const list = document.getElementById('lbList');
+  if (!songId) { list.innerHTML = '<div style="color:#64748b;padding:40px;text-align:center">Select a song</div>'; return; }
+  const scoresKey = 'fb_scores_' + songId;
+  const scores = JSON.parse(localStorage.getItem(scoresKey) || '[]');
+  let html = '', rank = 0;
+  scores.slice(0, 50).forEach(s => {
+    rank++;
+    const isMe = currentUser && s.uid === currentUser.uid;
+    const rankClass = rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : '';
+    html += `<div class="lb-row${isMe ? ' me' : ''}">
+      <div class="lb-rank ${rankClass}">#${rank}</div>
+      <div class="lb-name">${s.name || 'Unknown'}</div>
+      <div class="lb-score">${s.score}</div>
+      <div class="lb-grade" style="color:${s.grade==='A'||s.grade==='A+'||s.grade==='A**'?'#a855f7':'#94a3b8'}">${s.grade}</div>
+    </div>`;
+  });
+  list.innerHTML = html || '<div style="color:#64748b;padding:40px;text-align:center">No scores for this song</div>';
+}
+
+function populateSongFilter() {
+  const sel = document.getElementById('lbSongFilter');
+  sel.innerHTML = '<option value="">Select a song...</option>';
+  musicLibrary.forEach((t, i) => {
+    const opt = document.createElement('option');
+    opt.value = t.name.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 40);
+    opt.textContent = t.emoji + ' ' + t.name;
+    sel.appendChild(opt);
+  });
+}
+
+// ============================================================
+//  COMMUNITY SONGS (IndexedDB local storage)
+// ============================================================
+function openCommunityDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open('CommunitySongs', 1);
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains('songs')) db.createObjectStore('songs', { keyPath: 'songId' });
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function handleCommunityUpload(file) {
+  if (!file) return;
+  const overlay = document.getElementById('loadingOverlay');
+  const loadingText = document.getElementById('loadingText');
+  overlay.classList.add('active');
+
+  try {
+    loadingText.textContent = 'Decoding audio...';
+    const arrayBuf = await file.arrayBuffer();
+    initAudio();
+    const tempCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const audioBuffer = await tempCtx.decodeAudioData(arrayBuf);
+    tempCtx.close();
+
+    loadingText.textContent = 'Analyzing beats...';
+    const channels = [];
+    for (let c = 0; c < audioBuffer.numberOfChannels; c++) {
+      channels.push(audioBuffer.getChannelData(c));
+    }
+    const sr = audioBuffer.sampleRate;
+    const workerSrc = detectBeats.toString() + `
+self.onmessage = function(e) {
+  const { channels, sr } = e.data;
+  const mono = channels.length > 1
+    ? channels[0].map((v, i) => (v + channels[1][i]) * 0.5)
+    : channels[0];
+  const result = detectBeats({ getChannelData: () => mono, sampleRate: sr, numberOfChannels: 1 });
+  self.postMessage(result);
+};`;
+    const blob = new Blob([workerSrc], { type: 'application/javascript' });
+    const url = URL.createObjectURL(blob);
+    const worker = new Worker(url);
+    const beatData = await new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => { worker.terminate(); reject(new Error('Analysis timeout')); }, 60000);
+      worker.onmessage = (e) => { clearTimeout(timeout); resolve(e.data); worker.terminate(); };
+      worker.onerror = (e) => { clearTimeout(timeout); reject(e.error || new Error('Worker error')); worker.terminate(); };
+      worker.postMessage({ channels, sr });
+    });
+    URL.revokeObjectURL(url);
+
+    loadingText.textContent = 'Saving locally...';
+    const songId = 'comm_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6);
+    const lv = calculateLevel({
+      name: file.name.replace(/\.[^.]+$/, ''),
+      bpm: beatData.bpm,
+      confidence: beatData.confidence,
+      duration: audioBuffer.duration,
+    });
+
+    // Encode audio to WAV blob for storage
+    const wavBlob = audioBufferToWav(audioBuffer);
+
+    const songData = {
+      songId,
+      uploaderName: userProfile ? userProfile.name : 'Unknown',
+      name: file.name.replace(/\.[^.]+$/, ''),
+      bpm: beatData.bpm,
+      confidence: beatData.confidence,
+      duration: audioBuffer.duration,
+      level: lv,
+      beatsCount: beatData.beats.length,
+      detectedBeats: beatData.beats,
+      energy: beatData.energy,
+      createdAt: Date.now(),
+      audioBlob: wavBlob,
+    };
+
+    const db = await openCommunityDB();
+    const tx = db.transaction('songs', 'readwrite');
+    tx.objectStore('songs').put(songData);
+    await new Promise((resolve, reject) => { tx.oncomplete = resolve; tx.onerror = () => reject(tx.error); });
+
+    loadingText.textContent = 'Done!';
+    await new Promise(r => setTimeout(r, 800));
+    overlay.classList.remove('active');
+    loadCommunitySongs();
+  } catch (e) {
+    overlay.classList.remove('active');
+    alert('Upload failed: ' + e.message);
+  }
+}
+
+function audioBufferToWav(buffer) {
+  const numCh = buffer.numberOfChannels, sr = buffer.sampleRate, len = buffer.length;
+  const bytesPerSample = 2, blockAlign = numCh * bytesPerSample;
+  const dataSize = len * blockAlign;
+  const headerSize = 44;
+  const ab = new ArrayBuffer(headerSize + dataSize);
+  const view = new DataView(ab);
+  const writeStr = (off, str) => { for (let i = 0; i < str.length; i++) view.setUint8(off + i, str.charCodeAt(i)); };
+  writeStr(0, 'RIFF');
+  view.setUint32(4, 36 + dataSize, true);
+  writeStr(8, 'WAVE');
+  writeStr(12, 'fmt ');
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true);
+  view.setUint16(22, numCh, true);
+  view.setUint32(24, sr, true);
+  view.setUint32(28, sr * blockAlign, true);
+  view.setUint16(32, blockAlign, true);
+  view.setUint16(34, 16, true);
+  writeStr(36, 'data');
+  view.setUint32(40, dataSize, true);
+  const channels = [];
+  for (let c = 0; c < numCh; c++) channels.push(buffer.getChannelData(c));
+  let offset = 44;
+  for (let i = 0; i < len; i++) {
+    for (let c = 0; c < numCh; c++) {
+      const sample = Math.max(-1, Math.min(1, channels[c][i]));
+      view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+      offset += 2;
+    }
+  }
+  return new Blob([ab], { type: 'audio/wav' });
+}
+
+async function loadCommunitySongs() {
+  const grid = document.getElementById('communityGrid');
+  grid.innerHTML = '<div style="color:#64748b;padding:40px;text-align:center;grid-column:1/-1">Loading...</div>';
+  try {
+    const db = await openCommunityDB();
+    const tx = db.transaction('songs', 'readonly');
+    const store = tx.objectStore('songs');
+    const all = await new Promise((resolve, reject) => {
+      const req = store.getAll();
+      req.onsuccess = () => resolve(req.result || []);
+      req.onerror = () => reject(req.error);
+    });
+    all.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    let html = '';
+    all.forEach(s => {
+      const dur = Math.round(s.duration || 0);
+      const min = Math.floor(dur / 60);
+      const sec = dur % 60;
+      html += `<div class="song-card" onclick="playCommunitySong('${s.songId}')">
+        <div class="song-name">${s.name}</div>
+        <div class="song-meta"><span class="lv-badge ${getLevelClass(s.level)}">LV${s.level}</span> ${s.bpm} BPM \u00B7 ${min}:${sec.toString().padStart(2,'0')} \u00B7 ${s.beatsCount} beats</div>
+        <div class="song-uploader">by ${s.uploaderName || 'Unknown'} \u00B7 ${Math.round((s.confidence || 0) * 100)}% match</div>
+      </div>`;
+    });
+    grid.innerHTML = html || '<div style="color:#64748b;padding:40px;text-align:center;grid-column:1/-1">No community songs yet. Upload one!</div>';
+  } catch (e) {
+    grid.innerHTML = '<div style="color:#ef4444;padding:20px;text-align:center;grid-column:1/-1">Failed to load songs</div>';
+  }
+}
+
+async function playCommunitySong(songId) {
+  try {
+    const db = await openCommunityDB();
+    const tx = db.transaction('songs', 'readonly');
+    const songData = await new Promise((resolve, reject) => {
+      const req = tx.objectStore('songs').get(songId);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+    if (!songData) { alert('Song not found'); return; }
+    const overlay = document.getElementById('loadingOverlay');
+    const loadingText = document.getElementById('loadingText');
+    overlay.classList.add('active');
+    loadingText.textContent = 'Decoding audio...';
+    initAudio();
+    const arrayBuf = await songData.audioBlob.arrayBuffer();
+    const audioBuffer = await audioCtx.decodeAudioData(arrayBuf);
+    loadingText.textContent = 'Ready!';
+    const beatData = {
+      bpm: songData.bpm,
+      confidence: songData.confidence,
+      beats: songData.detectedBeats || [],
+      energy: songData.energy,
+    };
+    const track = {
+      name: songData.name,
+      emoji: '\uD83C\uDFB5',
+      artist: songData.uploaderName || 'Community',
+      bpm: beatData.bpm,
+      confidence: beatData.confidence,
+      duration: audioBuffer.duration,
+      isCustom: true,
+      audioBuffer: audioBuffer,
+      detectedBeats: beatData.beats,
+      energyEnvelope: beatData.energy,
+      level: songData.level,
+      generateBeats(diff) {
+        const beats = this.detectedBeats || [];
+        if (!beats.length) return [];
+        if (diff === 'easy') return beats.filter(b => b.type === 'downbeat' || (b.type === 'strong' && b.strength > 0.5)).map(b => b.time * 1000);
+        if (diff === 'hard') return beats.filter(b => b.type !== 'subdivision').map(b => b.time * 1000);
+        return beats.filter(b => b.type !== 'subdivision' || b.strength > 0.3).map(b => b.time * 1000);
+      },
+      scheduleAudio(ctx, start) {
+        const src = ctx.createBufferSource();
+        src.buffer = this.audioBuffer;
+        src.connect(ctx.destination);
+        src.start(start);
+        gameAudioSource = src;
+      }
+    };
+    overlay.classList.remove('active');
+    musicLibrary.push(track);
+    selectedTrackIdx = musicLibrary.length - 1;
+    buildMusicGrid();
+    populateSongFilter();
+    showScreen('diffScreen');
+  } catch (e) {
+    document.getElementById('loadingOverlay').classList.remove('active');
+    alert('Failed to load song: ' + e.message);
+  }
+}
+
+// Drag & drop support for upload zone
+document.addEventListener('DOMContentLoaded', () => {
+  const zone = document.getElementById('uploadZone');
+  if (zone) {
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragging'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('dragging'));
+    zone.addEventListener('drop', e => {
+      e.preventDefault(); zone.classList.remove('dragging');
+      if (e.dataTransfer.files.length > 0) handleCommunityUpload(e.dataTransfer.files[0]);
+    });
+  }
+});
+
+// ============================================================
+//  PATCH: Show level badges on music cards + submit scores
+// ============================================================
+const _origBuildGrid = buildMusicGrid;
+buildMusicGrid = function() {
+  _origBuildGrid();
+  const grid = document.getElementById('musicGrid');
+  if (!grid) return;
+  const cards = grid.querySelectorAll('.music-card:not(.upload-card)');
+  cards.forEach((card, i) => {
+    if (i < musicLibrary.length) {
+      const lv = calculateLevel(musicLibrary[i]);
+      const badge = document.createElement('div');
+      badge.className = 'lv-badge ' + getLevelClass(lv);
+      badge.textContent = 'LV' + lv;
+      badge.style.position = 'absolute';
+      badge.style.top = '12px';
+      badge.style.right = '12px';
+      card.style.position = 'relative';
+      card.appendChild(badge);
+    }
+  });
+  populateSongFilter();
+};
+
+initFirebase();
+buildMusicGrid();
+
+// ============================================================
+//  TUTORIAL (Interactive Practice)
 // ============================================================
 let tutRunning = false, tutStep = 0, tutAnimId = null, tutStartTime = 0;
 const tutNotes = [];
 const tutCanvas = document.getElementById('tutorialCanvas');
 const tutCtx = tutCanvas ? tutCanvas.getContext('2d') : null;
+let tutFingerPositions = [];
+let tutSmoothedFingers = [];
+let tutPrevFingerState = [];
+let tutSlideState = null;
+let tutHoldState = null;
+let tutEffects = [];
+let tutHandTrackingReady = false;
 
 function resizeTutorialCanvas() {
   if (!tutCanvas) return;
@@ -810,25 +1577,44 @@ function resizeTutorialCanvas() {
 window.addEventListener('resize', resizeTutorialCanvas);
 resizeTutorialCanvas();
 
-function showTutorial() {
+const TUT_STEP_LABELS = ['TAP NOTES', 'MORE TAPS', 'SLIDE NOTES', 'HOLD NOTES'];
+const TUT_STEP_HINTS = [
+  'Touch the purple circles when the ring shrinks to fit!',
+  'Try hitting multiple notes in sequence!',
+  'Touch the circle, then swipe to the \u2605 star!',
+  'Touch the blue note and hold until the bar fills!'
+];
+
+async function showTutorial() {
   showScreen('tutorialScreen');
-  try { initAudio(); } catch(e) { console.warn('audio init failed', e); }
+  ctx.clearRect(0, 0, W, H);
+  try { initAudio(); } catch(e) {}
   document.getElementById('skipBtn').style.display = 'block';
   document.getElementById('skipBtn').style.pointerEvents = 'auto';
   document.getElementById('tutorialCanvas').style.display = 'block';
   tutStep = 0;
-  updateTutStep();
+  updateTutLabel();
   tutRunning = true;
   tutStartTime = performance.now();
   tutNotes.length = 0;
+  tutEffects.length = 0;
+  tutSlideState = null;
+  tutHoldState = null;
+  tutFingerPositions = [];
+  tutSmoothedFingers = [];
+  tutPrevFingerState = [];
+  tutHandTrackingReady = false;
   spawnTutNotes();
-  try { playIntroAudio(); } catch(e) { console.warn('intro audio failed', e); }
+
+  try { await setupCamera(); await setupHands(); tutHandTrackingReady = true; } catch(e) { console.warn('camera setup failed for tutorial', e); }
+  try { playIntroAudio(); } catch(e) {}
   if (tutAnimId) cancelAnimationFrame(tutAnimId);
   tutLoop();
 }
 
 function skipTutorial() {
   tutRunning = false;
+  tutHandTrackingReady = false;
   if (tutAnimId) cancelAnimationFrame(tutAnimId);
   document.getElementById('skipBtn').style.display = 'none';
   document.getElementById('tutorialCanvas').style.display = 'none';
@@ -840,33 +1626,41 @@ function nextTutStep() {
   if (tutStep > 3) { skipTutorial(); return; }
   tutStartTime = performance.now();
   tutNotes.length = 0;
-  updateTutStep();
+  tutSlideState = null;
+  tutHoldState = null;
+  updateTutLabel();
   spawnTutNotes();
 }
 
-function updateTutStep() {
-  document.querySelectorAll('.tutorial-step').forEach((s, i) => {
-    s.classList.toggle('active', i === tutStep);
-  });
-  document.querySelectorAll('#tutorialProgress .dot').forEach((d, i) => {
-    d.classList.toggle('active', i === tutStep);
-  });
+function updateTutLabel() {
+  const label = document.getElementById('tutLabel');
+  const hint = document.getElementById('tutHint');
+  if (label) label.textContent = TUT_STEP_LABELS[tutStep] || 'PRACTICE';
+  if (hint) hint.textContent = TUT_STEP_HINTS[tutStep] || '';
+  for (let i = 0; i < 4; i++) {
+    const dot = document.getElementById('tutDot' + i);
+    if (dot) dot.className = 'tut-dot2' + (i === tutStep ? ' active' : '');
+  }
 }
 
 function spawnTutNotes() {
   tutNotes.length = 0;
   const W = tutCanvas.width, H = tutCanvas.height;
   const cx = W / 2, cy = H / 2;
+  const r = 50;
   const patterns = [
-    [{x:cx,y:cy,t:0},{x:cx-120,y:cy-60,t:700},{x:cx+120,y:cy+40,t:1400},{x:cx,y:cy+100,t:2100}],
-    [{x:cx-80,y:cy,t:0},{x:cx+80,y:cy,t:500},{x:cx-80,y:cy-80,t:1000},{x:cx+80,y:cy-80,t:1500},{x:cx,y:cy+80,t:2000}],
-    [{x:cx-150,y:cy-50,t:0},{x:cx+150,y:cy-50,t:600},{x:cx-150,y:cy+50,t:1200},{x:cx+150,y:cy+50,t:1800}],
-    [{x:cx,y:cy-80,t:0},{x:cx-100,y:cy+40,t:400},{x:cx+100,y:cy+40,t:800},{x:cx,y:cy,t:1200},{x:cx-60,y:cy+80,t:1600},{x:cx+60,y:cy+80,t:2000}],
+    [{x:cx-100,y:cy-50,t:0},{x:cx+100,y:cy-50,t:900},{x:cx,y:cy+80,t:1800},{x:cx-80,y:cy+30,t:2700},{x:cx+80,y:cy+30,t:3400}],
+    [{x:cx-120,y:cy,t:0},{x:cx+120,y:cy,t:600},{x:cx,y:cy-80,t:1200},{x:cx-60,y:cy+60,t:1800},{x:cx+60,y:cy+60,t:2300}],
+    [{x:cx-120,y:cy,t:0,slideEnd:{x:cx+120,y:cy-30},slT:800},{x:cx+80,y:cy-60,t:1400,slideEnd:{x:cx-80,y:cy+60},slT:800}],
+    [{x:cx-60,y:cy,t:0,hold:1200},{x:cx+60,y:cy,t:2000,hold:1200}],
   ];
   const pat = patterns[tutStep] || patterns[0];
-  const baseTime = 800;
+  const baseTime = 1200;
   pat.forEach(n => {
-    tutNotes.push({ x:n.x, y:n.y, time:baseTime+n.t, approach:1500, hit:false, missed:false, fadeOut:0 });
+    const note = { x:n.x, y:n.y, time:baseTime+n.t, approach:1800, hit:false, missed:false, fadeOut:0, radius:r };
+    if (n.slideEnd) { note.type = 'slide'; note.endX = n.slideEnd.x; note.endY = n.slideEnd.y; note.slideTime = n.slT || 800; }
+    else if (n.hold) { note.type = 'hold'; note.holdDuration = n.hold; }
+    tutNotes.push(note);
   });
 }
 
@@ -901,63 +1695,290 @@ function playIntroAudio() {
     hg.gain.setValueAtTime(0.06, t + bi * 0.5);
     hg.gain.exponentialRampToValueAtTime(0.001, t + bi * 0.5 + 0.03);
   }
-  const melody = [440,523,587,659,587,523,440,523,587,659,784,659,587,523,440,392];
-  for (let i = 0; i < melody.length; i++) {
-    const t = start + i * bi * 0.5;
-    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
-    o.type = 'sine'; o.frequency.value = melody[i];
-    o.connect(g); g.connect(audioCtx.destination);
-    g.gain.setValueAtTime(0.08, t);
-    g.gain.exponentialRampToValueAtTime(0.001, t + bi * 0.45);
-    o.start(t); o.stop(t + bi * 0.45);
+}
+
+function tutCheckHits(elapsed) {
+  if (tutFingerPositions.length === 0) {
+    if (tutSlideState) tutSlideState = null;
+    if (tutHoldState) tutHoldState = null;
+    return;
+  }
+  const hitWindow = 500;
+
+  if (tutSlideState) {
+    const sn = tutSlideState.note;
+    const elapsed2 = performance.now() - tutSlideState.startTime;
+
+    // Find finger closest to locked position (or note start if first frame)
+    const refX = tutSlideState.lockedX != null ? tutSlideState.lockedX : sn.x;
+    const refY = tutSlideState.lockedY != null ? tutSlideState.lockedY : sn.y;
+    let bestDist = Infinity;
+    let bestFp = null;
+    for (const fp of tutFingerPositions) {
+      const ddx = fp.x - refX, ddy = fp.y - refY;
+      const d = Math.sqrt(ddx * ddx + ddy * ddy);
+      if (d < bestDist) { bestDist = d; bestFp = fp; }
+    }
+
+    let fingerNearEnd = false;
+    if (bestFp) {
+      tutSlideState.lastFX = bestFp.x;
+      tutSlideState.lastFY = bestFp.y;
+      tutSlideState.lockedX = bestFp.x;
+      tutSlideState.lockedY = bestFp.y;
+      const ddx = bestFp.x - sn.endX, ddy = bestFp.y - sn.endY;
+      if (Math.sqrt(ddx * ddx + ddy * ddy) < sn.radius * 3.5) { fingerNearEnd = true; }
+    }
+
+    if (fingerNearEnd || elapsed2 > (sn.slideTime || 800) * 3) {
+      if (fingerNearEnd) {
+        sn.hit = true; sn.fadeOut = 1;
+        playSlideSound(); playHitSound(300);
+        tutEffects.push({ x: sn.endX, y: sn.endY, text: 'PERFECT', color: '#22c55e', life: 1, vy: -2 });
+      } else {
+        sn.missed = true;
+        playMissSound();
+      }
+      tutSlideState = null;
+    }
+    return;
+  }
+
+  if (tutHoldState) {
+    const hn = tutHoldState.note;
+    const holdDur = hn.holdDuration || 1200;
+    tutHoldState.heldTime = performance.now() - tutHoldState.startTime;
+    let fingerNear = false;
+    for (const fp of tutFingerPositions) {
+      const ddx = fp.x - hn.x, ddy = fp.y - hn.y;
+      if (Math.sqrt(ddx * ddx + ddy * ddy) < hn.radius * 3.5) { fingerNear = true; break; }
+    }
+    if (!fingerNear && tutHoldState.heldTime < holdDur * 0.7) {
+      hn.missed = true; playMissSound(); tutHoldState = null;
+    } else if (tutHoldState.heldTime >= holdDur) {
+      hn.hit = true; hn.fadeOut = 1;
+      playHitSound(300);
+      tutEffects.push({ x: hn.x, y: hn.y, text: 'PERFECT', color: '#22c55e', life: 1, vy: -2 });
+      tutHoldState = null;
+    }
+    return;
+  }
+
+  let firstUnhit = null;
+  for (const note of tutNotes) {
+    if (!note.hit && !note.missed) { firstUnhit = note; break; }
+  }
+  if (!firstUnhit) return;
+  const timeDiff = elapsed - firstUnhit.time;
+  if (timeDiff < -hitWindow || timeDiff > hitWindow) return;
+
+  const noteType = firstUnhit.type || 'tap';
+  let minDist = Infinity;
+  for (const fp of tutFingerPositions) {
+    const ddx = fp.x - firstUnhit.x, ddy = fp.y - firstUnhit.y;
+    const d = Math.sqrt(ddx * ddx + ddy * ddy);
+    if (d < minDist) minDist = d;
+  }
+
+  if (minDist < firstUnhit.radius * 3.5) {
+    if (noteType === 'slide') {
+      tutSlideState = { note: firstUnhit, startTime: performance.now(), lastFX: null, lastFY: null, lockedX: null, lockedY: null };
+      for (const fp of tutFingerPositions) {
+        const ddx = fp.x - firstUnhit.x, ddy = fp.y - firstUnhit.y;
+        const d = Math.sqrt(ddx * ddx + ddy * ddy);
+        if (d < firstUnhit.radius * 3.5) {
+          tutSlideState.lockedX = fp.x; tutSlideState.lockedY = fp.y;
+          tutSlideState.lastFX = fp.x; tutSlideState.lastFY = fp.y;
+          break;
+        }
+      }
+      playSlideSound();
+    } else if (noteType === 'hold') {
+      tutHoldState = { note: firstUnhit, startTime: performance.now(), heldTime: 0 };
+    } else {
+      firstUnhit.hit = true; firstUnhit.fadeOut = 1;
+      const absTD = Math.abs(timeDiff);
+      let rating = absTD < 120 ? 300 : absTD < 200 ? 170 : 100;
+      playHitSound(rating);
+      const labels = { 300: 'PERFECT', 170: 'GREAT', 100: 'OK' };
+      const colors = { 300: '#22c55e', 170: '#38bdf8', 100: '#facc15' };
+      tutEffects.push({ x: firstUnhit.x, y: firstUnhit.y, text: labels[rating], color: colors[rating], life: 1, vy: -2 });
+    }
+  }
+}
+
+function tutCheckMisses(elapsed) {
+  for (const n of tutNotes) {
+    if (n.hit || n.missed) continue;
+    let missTime = 800;
+    if (n.type === 'hold') missTime = 800 + (n.holdDuration || 1200);
+    else if (n.type === 'slide') missTime = 800 + (n.slideTime || 800);
+    if (elapsed - n.time > missTime) {
+      n.missed = true;
+      if (tutSlideState && tutSlideState.note === n) tutSlideState = null;
+      if (tutHoldState && tutHoldState.note === n) tutHoldState = null;
+    }
   }
 }
 
 function tutLoop() {
   if (!tutRunning) return;
-  const elapsed = performance.now() - tutStartTime - 800;
+  const elapsed = performance.now() - tutStartTime - 1000;
   tutCtx.clearRect(0, 0, tutCanvas.width, tutCanvas.height);
 
+  // Dark overlay
+  tutCtx.fillStyle = 'rgba(5,5,20,0.4)';
+  tutCtx.fillRect(0, 0, tutCanvas.width, tutCanvas.height);
+
+  // Camera feed on tutorial canvas
+  if (videoEl.readyState >= 2) {
+    tutCtx.save();
+    tutCtx.globalAlpha = 0.3;
+    tutCtx.translate(tutCanvas.width, 0);
+    tutCtx.scale(-1, 1);
+    tutCtx.drawImage(videoEl, 0, 0, tutCanvas.width, tutCanvas.height);
+    tutCtx.restore();
+  }
+
+  tutCheckHits(elapsed);
+  tutCheckMisses(elapsed);
+
+  // Draw tutorial notes
   for (const n of tutNotes) {
     if (n.hit) {
       n.fadeOut -= 0.04;
       if (n.fadeOut <= 0) continue;
       tutCtx.globalAlpha = n.fadeOut;
-      tutCtx.beginPath(); tutCtx.arc(n.x, n.y, 45 * (1 + (1 - n.fadeOut) * 0.6), 0, Math.PI * 2);
-      tutCtx.fillStyle = 'rgba(168,85,247,0.3)'; tutCtx.fill();
+      const col = n.type === 'slide' ? 'rgba(50,205,50,0.3)' : n.type === 'hold' ? 'rgba(56,189,248,0.3)' : 'rgba(168,85,247,0.3)';
+      tutCtx.beginPath(); tutCtx.arc(n.x, n.y, n.radius * (1 + (1 - n.fadeOut) * 0.6), 0, Math.PI * 2);
+      tutCtx.fillStyle = col; tutCtx.fill();
+      tutCtx.globalAlpha = 1;
+      continue;
+    }
+    if (n.missed) {
+      n.fadeOut = (n.fadeOut || 1) - 0.03;
+      if (n.fadeOut <= 0) continue;
+      tutCtx.globalAlpha = n.fadeOut * 0.5;
+      tutCtx.beginPath(); tutCtx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+      tutCtx.fillStyle = 'rgba(239,68,68,0.2)'; tutCtx.fill();
+      tutCtx.strokeStyle = '#ef4444'; tutCtx.lineWidth = 2; tutCtx.stroke();
       tutCtx.globalAlpha = 1;
       continue;
     }
     const timeDiff = elapsed - n.time;
-    if (timeDiff > 2000) continue;
+    if (timeDiff > 2500) continue;
     const progress = 1 - Math.max(0, 1 - (timeDiff + n.approach) / n.approach);
-    if (progress <= 0 || timeDiff > 150) continue;
+    if (progress <= 0) continue;
     const alpha = Math.min(1, progress * 2);
-    const noteR = 45;
-    tutCtx.globalAlpha = alpha * 0.9;
-    const bg = tutCtx.createRadialGradient(n.x, n.y, 0, n.x, n.y, noteR);
-    bg.addColorStop(0, 'rgba(192,132,252,0.85)');
-    bg.addColorStop(1, 'rgba(120,80,220,0.65)');
-    tutCtx.beginPath(); tutCtx.arc(n.x, n.y, noteR, 0, Math.PI * 2);
-    tutCtx.fillStyle = bg; tutCtx.fill();
-    tutCtx.strokeStyle = '#22c55e'; tutCtx.lineWidth = 3; tutCtx.stroke();
-    if (progress > 0) {
+    const noteR = n.radius;
+    const isSliding = tutSlideState && tutSlideState.note === n;
+    const isHolding = tutHoldState && tutHoldState.note === n;
+
+    if (n.type === 'slide') {
+      // Finger trail
+      if (isSliding && tutSlideState.lastFX != null) {
+        tutCtx.globalAlpha = 0.6;
+        tutCtx.beginPath(); tutCtx.moveTo(n.x, n.y); tutCtx.lineTo(tutSlideState.lastFX, tutSlideState.lastFY);
+        tutCtx.strokeStyle = '#facc15'; tutCtx.lineWidth = 6; tutCtx.lineCap = 'round'; tutCtx.stroke();
+        tutCtx.lineCap = 'butt';
+      }
+      tutCtx.globalAlpha = alpha * 0.5;
+      tutCtx.setLineDash([8, 6]);
+      tutCtx.beginPath(); tutCtx.moveTo(n.x, n.y); tutCtx.lineTo(n.endX, n.endY);
+      tutCtx.strokeStyle = '#facc15'; tutCtx.lineWidth = 3; tutCtx.stroke();
+      tutCtx.setLineDash([]);
+      // Start circle + approach
+      tutCtx.globalAlpha = alpha * 0.85;
+      tutCtx.beginPath(); tutCtx.arc(n.x, n.y, noteR * 0.7, 0, Math.PI * 2);
+      tutCtx.fillStyle = 'rgba(250,204,21,0.6)'; tutCtx.fill();
+      tutCtx.strokeStyle = '#facc15'; tutCtx.lineWidth = 2.5; tutCtx.stroke();
+      if (progress > 0 && !isSliding) {
+        const aR = noteR * (2.2 - progress * 1.2);
+        tutCtx.globalAlpha = Math.min(1, (1 - progress) * 2) * 0.9;
+        tutCtx.beginPath(); tutCtx.arc(n.x, n.y, aR, 0, Math.PI * 2);
+        tutCtx.strokeStyle = progress < 0.5 ? '#fbbf24' : '#f43f5e'; tutCtx.lineWidth = 5; tutCtx.stroke();
+      }
+      // End star
+      tutCtx.globalAlpha = alpha * 0.92;
+      drawStar(n.endX, n.endY, noteR * 1.2, noteR * 0.48, 5, performance.now() * 0.001);
+      tutCtx.fillStyle = 'rgba(250,204,21,0.9)'; tutCtx.fill();
+      tutCtx.strokeStyle = '#fde68a'; tutCtx.lineWidth = 3; tutCtx.stroke();
+    } else if (n.type === 'hold') {
+      const trackH = 100;
+      const holdProg = isHolding ? Math.min(1, tutHoldState.heldTime / (n.holdDuration || 1200)) : 0;
+      tutCtx.globalAlpha = alpha * 0.35;
+      tutCtx.beginPath();
+      tutCtx.roundRect(n.x - noteR * 0.6, n.y - noteR * 0.3, noteR * 1.2, trackH + noteR * 0.6, 6);
+      tutCtx.fillStyle = 'rgba(56,189,248,0.15)'; tutCtx.fill();
+      tutCtx.strokeStyle = 'rgba(56,189,248,0.3)'; tutCtx.lineWidth = 1.5; tutCtx.stroke();
+      if (holdProg > 0) {
+        const fillH = trackH * holdProg;
+        tutCtx.globalAlpha = alpha * 0.6;
+        tutCtx.beginPath();
+        tutCtx.roundRect(n.x - noteR * 0.6 + 2, n.y + noteR * 0.3, noteR * 1.2 - 4, fillH, 6);
+        tutCtx.fillStyle = 'rgba(56,189,248,0.7)'; tutCtx.fill();
+      }
+      tutCtx.globalAlpha = alpha * 0.92;
+      tutCtx.beginPath(); tutCtx.arc(n.x, n.y, noteR, 0, Math.PI * 2);
+      tutCtx.fillStyle = isHolding ? 'rgba(96,205,255,0.9)' : 'rgba(96,165,250,0.85)'; tutCtx.fill();
+      tutCtx.strokeStyle = isHolding ? '#38bdf8' : '#60a5fa'; tutCtx.lineWidth = 3.5; tutCtx.stroke();
+      if (isHolding) {
+        const pulse = 1 + Math.sin(performance.now() * 0.008) * 0.15;
+        tutCtx.globalAlpha = 0.4;
+        tutCtx.beginPath(); tutCtx.arc(n.x, n.y, noteR * pulse * 1.3, 0, Math.PI * 2);
+        tutCtx.strokeStyle = '#38bdf8'; tutCtx.lineWidth = 2; tutCtx.stroke();
+      }
+    } else {
+      tutCtx.globalAlpha = alpha * 0.92;
+      const bg = tutCtx.createRadialGradient(n.x, n.y, 0, n.x, n.y, noteR);
+      bg.addColorStop(0, 'rgba(192,132,252,0.9)');
+      bg.addColorStop(0.6, 'rgba(147,97,247,0.8)');
+      bg.addColorStop(1, 'rgba(109,60,215,0.7)');
+      tutCtx.beginPath(); tutCtx.arc(n.x, n.y, noteR, 0, Math.PI * 2);
+      tutCtx.fillStyle = bg; tutCtx.fill();
+      tutCtx.strokeStyle = '#22c55e'; tutCtx.lineWidth = 3.5; tutCtx.stroke();
+    }
+
+    // Approach circle for non-slide
+    if (progress > 0 && n.type !== 'slide') {
       const aR = noteR * (2.5 - progress * 1.5);
-      tutCtx.globalAlpha = Math.min(1, (1 - progress) * 2) * 0.8;
+      tutCtx.globalAlpha = Math.min(1, (1 - progress) * 2) * 0.9;
       tutCtx.beginPath(); tutCtx.arc(n.x, n.y, aR, 0, Math.PI * 2);
       tutCtx.strokeStyle = progress < 0.5 ? '#818cf8' : '#f43f5e';
-      tutCtx.lineWidth = 4; tutCtx.stroke();
+      tutCtx.lineWidth = 5; tutCtx.stroke();
     }
     tutCtx.globalAlpha = 1;
-    if (timeDiff > -50 && timeDiff < 150 && !n.hit) {
-      n.hit = true;
-      n.fadeOut = 1;
-    }
   }
 
-  if (tutNotes.every(n => n.hit || n.missed) && elapsed > 2500) {
-    const waitTimes = [2600, 2500, 2200, 2500];
-    if (elapsed > (waitTimes[tutStep] || 2500)) nextTutStep();
+  // Draw tutorial fingers
+  for (let i = 0; i < tutFingerPositions.length; i++) {
+    const fp = tutFingerPositions[i];
+    const c = FINGER_COLORS[i % FINGER_COLORS.length];
+    tutCtx.beginPath(); tutCtx.arc(fp.x, fp.y, 14, 0, Math.PI * 2);
+    tutCtx.fillStyle = c + '30'; tutCtx.fill();
+    tutCtx.beginPath(); tutCtx.arc(fp.x, fp.y, 14, 0, Math.PI * 2);
+    tutCtx.strokeStyle = c + 'bb'; tutCtx.lineWidth = 2.5; tutCtx.stroke();
+  }
+
+  // Draw effects
+  for (let i = tutEffects.length - 1; i >= 0; i--) {
+    const e = tutEffects[i];
+    e.y += e.vy; e.life -= 0.02;
+    if (e.life <= 0) { tutEffects.splice(i, 1); continue; }
+    tutCtx.globalAlpha = e.life;
+    tutCtx.font = 'bold 42px "Orbitron",sans-serif';
+    tutCtx.textAlign = 'center'; tutCtx.textBaseline = 'middle';
+    tutCtx.shadowColor = e.color; tutCtx.shadowBlur = 14;
+    tutCtx.fillStyle = e.color;
+    tutCtx.fillText(e.text, e.x, e.y);
+    tutCtx.shadowBlur = 0;
+  }
+  tutCtx.globalAlpha = 1;
+
+  // Check if all notes done
+  if (tutNotes.every(n => n.hit || n.missed) && elapsed > 2000) {
+    const waitTimes = [3500, 3200, 3500, 3500];
+    if (elapsed > (waitTimes[tutStep] || 3000)) nextTutStep();
   }
 
   tutAnimId = requestAnimationFrame(tutLoop);
@@ -974,36 +1995,148 @@ function selectDiff(el) {
 // ============================================================
 function generateBeatmap(track, diff) {
   const rawBeats = track.generateBeats(diff);
+  if (!rawBeats || rawBeats.length === 0) return [];
+
+  // Normalize beats to objects with {time, strength, type}
+  const beats = rawBeats.map((b, i) => {
+    if (typeof b === 'object') return b;
+    // Plain number (built-in tracks) — generate synthetic metadata
+    const s = i % 4;
+    return {
+      time: b,
+      strength: s === 0 ? 0.9 : s === 2 ? 0.6 : 0.35,
+      type: s === 0 ? 'downbeat' : s === 2 ? 'strong' : 'weak',
+    };
+  });
+
   const baseApproach = diff === 'easy' ? 2000 : diff === 'hard' ? 1000 : 1500;
   const approachMs = baseApproach / noteSpeedMultiplier;
-
   const cx = W / 2, cy = H / 2;
   const rx = W * 0.42, ry = H * 0.42;
-  const noteR = 55;
+  const minDist = diff === 'easy' ? 220 : diff === 'hard' ? 160 : 190;
+  const placedPositions = [];
+  const songDurationMs = (track.duration || 999) * 1000;
 
-  const positions = [];
-  for (let i = 0; i < 180; i++) {
-    const angle = (i * 0.618033988749895) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
-    const spread = 0.25 + Math.random() * 0.7;
-    positions.push({
-      x: cx + Math.cos(angle) * rx * spread,
-      y: cy + Math.sin(angle) * ry * spread,
-    });
+  function getGoodPosition() {
+    for (let attempt = 0; attempt < 80; attempt++) {
+      const angle = Math.random() * Math.PI * 2;
+      const spread = 0.2 + Math.random() * 0.75;
+      const px = cx + Math.cos(angle) * rx * spread;
+      const py = cy + Math.sin(angle) * ry * spread;
+      let tooClose = false;
+      const checkCount = Math.min(placedPositions.length, 12);
+      for (let j = placedPositions.length - 1; j >= placedPositions.length - checkCount; j--) {
+        const pp = placedPositions[j];
+        const dd = Math.sqrt((px - pp.x) ** 2 + (py - pp.y) ** 2);
+        if (dd < minDist) { tooClose = true; break; }
+      }
+      if (!tooClose) return { x: px, y: py };
+    }
+    return { x: cx + (Math.random() - 0.5) * rx * 1.2, y: cy + (Math.random() - 0.5) * ry * 1.2 };
   }
 
-  const result = rawBeats.map((t, i) => ({
-    time: t + 4000,
-    x: positions[i % positions.length].x,
-    y: positions[i % positions.length].y,
-    radius: noteR,
-    approachDuration: approachMs,
-    hit: false,
-    missed: false,
-    fadeOut: 0,
-    orderIndex: i,
-  }));
+  function getSlideEndPos(startX, startY) {
+    for (let attempt = 0; attempt < 40; attempt++) {
+      const angle = Math.random() * Math.PI * 2;
+      const d = 120 + Math.random() * 200;
+      const ex = Math.max(80, Math.min(W - 80, startX + Math.cos(angle) * d));
+      const ey = Math.max(80, Math.min(H - 80, startY + Math.sin(angle) * d));
+      if (Math.sqrt((ex - startX) ** 2 + (ey - startY) ** 2) > 100) return { x: ex, y: ey };
+    }
+    return { x: startX + 150, y: startY };
+  }
 
-  return result.sort((a, b) => a.time - b.time);
+  const result = [];
+  let slideCount = 0, holdCount = 0;
+  const totalNotes = beats.length;
+
+  // Count max slides/holds per difficulty
+  const maxSlideRatio = diff === 'easy' ? 0.08 : diff === 'hard' ? 0.22 : 0.15;
+  const maxHoldRatio = diff === 'easy' ? 0.10 : diff === 'hard' ? 0.18 : 0.15;
+  const maxSlides = Math.floor(totalNotes * maxSlideRatio);
+  const maxHolds = Math.floor(totalNotes * maxHoldRatio);
+
+  // Track consecutive note types to avoid repeats
+  let lastType = 'tap';
+
+  for (let i = 0; i < totalNotes; i++) {
+    const beat = beats[i];
+    const t = beat.time;
+    const strength = beat.strength || 0.5;
+    const beatType = beat.type || 'strong';
+    const pos = getGoodPosition();
+    placedPositions.push({ ...pos, time: t + 4000 });
+
+    // --- Beat-strength-aware note type assignment ---
+    let noteType = 'tap';
+
+    if (beatType === 'downbeat') {
+      // Downbeats: highest chance of special notes
+      if (diff === 'easy') {
+        // Easy: just taps on downbeats
+      } else if (diff === 'normal') {
+        if (slideCount < maxSlides && lastType !== 'slide' && Math.random() < 0.2) {
+          noteType = 'slide'; slideCount++;
+        } else if (holdCount < maxHolds && lastType !== 'hold' && Math.random() < 0.15) {
+          noteType = 'hold'; holdCount++;
+        }
+      } else {
+        // Hard: more slides and holds on downbeats
+        if (slideCount < maxSlides && lastType !== 'slide' && Math.random() < 0.35) {
+          noteType = 'slide'; slideCount++;
+        } else if (holdCount < maxHolds && lastType !== 'hold' && Math.random() < 0.25) {
+          noteType = 'hold'; holdCount++;
+        }
+      }
+    } else if (beatType === 'strong') {
+      // Strong beats: occasional slides on hard
+      if (diff === 'hard' && slideCount < maxSlides && lastType !== 'slide' && Math.random() < 0.15) {
+        noteType = 'slide'; slideCount++;
+      }
+    }
+    // Weak/subdivision beats: always taps
+
+    // Cap total slides and holds
+    if (noteType === 'slide' && slideCount > maxSlides) noteType = 'tap';
+    if (noteType === 'hold' && holdCount > maxHolds) noteType = 'tap';
+
+    lastType = noteType;
+
+    // Note radius scales with beat strength (bigger on stronger beats)
+    const baseR = 55;
+    const noteR = baseR * (0.8 + strength * 0.4);
+
+    const note = {
+      time: t + 4000,
+      x: pos.x, y: pos.y,
+      radius: Math.round(noteR),
+      approachDuration: approachMs,
+      hit: false, missed: false, fadeOut: 0,
+      orderIndex: i,
+      type: noteType,
+      beatStrength: strength,
+      beatType: beatType,
+    };
+
+    if (noteType === 'slide') {
+      const end = getSlideEndPos(pos.x, pos.y);
+      note.endX = end.x;
+      note.endY = end.y;
+      note.slideTime = diff === 'hard' ? 450 : diff === 'easy' ? 800 : 600;
+    } else if (noteType === 'hold') {
+      // Hold duration scales with beat strength (stronger = longer hold)
+      const baseHold = diff === 'hard' ? 800 : diff === 'easy' ? 1400 : 1100;
+      note.holdDuration = Math.round(baseHold * (0.7 + strength * 0.6));
+    }
+
+    result.push(note);
+  }
+
+  // Filter out notes that fall beyond the song's actual duration
+  const maxNoteTime = songDurationMs - 500;
+  const filtered = result.filter(n => n.time <= maxNoteTime + 4000);
+
+  return filtered.sort((a, b) => a.time - b.time);
 }
 
 // ============================================================
@@ -1012,31 +2145,97 @@ function generateBeatmap(track, diff) {
 function playHitSound(rating) {
   if (!audioCtx) return;
   const now = audioCtx.currentTime;
-  const o = audioCtx.createOscillator(), g = audioCtx.createGain(), f = audioCtx.createBiquadFilter();
-  o.connect(f); f.connect(g); g.connect(audioCtx.destination);
-  f.type = 'bandpass'; f.frequency.value = rating === 300 ? 800 : rating === 170 ? 600 : 400; f.Q.value = 5;
-  o.type = 'triangle'; o.frequency.value = rating === 300 ? 880 : rating === 170 ? 660 : 440;
-  g.gain.setValueAtTime(0.35, now);
-  g.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
-  o.start(now); o.stop(now + 0.15);
+  const vol = rating === 300 ? 1.0 : rating === 170 ? 0.8 : 0.6;
 
-  const n = audioCtx.createOscillator(), ng = audioCtx.createGain(), nf = audioCtx.createBiquadFilter();
-  n.connect(nf); nf.connect(ng); ng.connect(audioCtx.destination);
-  nf.type = 'highpass'; nf.frequency.value = 1000;
-  n.type = 'square'; n.frequency.value = rating === 300 ? 1200 : rating === 170 ? 900 : 600;
-  ng.gain.setValueAtTime(0.12, now);
-  ng.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-  n.start(now); n.stop(now + 0.05);
+  // Layer 1: Sharp click transient (attack snap)
+  const c1 = audioCtx.createOscillator(), cg1 = audioCtx.createGain(), cf = audioCtx.createBiquadFilter();
+  c1.type = 'sine';
+  c1.frequency.setValueAtTime(rating === 300 ? 1800 : rating === 170 ? 1400 : 1000, now);
+  c1.frequency.exponentialRampToValueAtTime(rating === 300 ? 600 : rating === 170 ? 450 : 350, now + 0.04);
+  cf.type = 'highpass'; cf.frequency.value = 400;
+  c1.connect(cf); cf.connect(cg1); cg1.connect(audioCtx.destination);
+  cg1.gain.setValueAtTime(0.45 * vol, now);
+  cg1.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+  c1.start(now); c1.stop(now + 0.06);
+
+  // Layer 2: Body tone (punchy mid)
+  const o2 = audioCtx.createOscillator(), g2 = audioCtx.createGain(), f2 = audioCtx.createBiquadFilter();
+  o2.type = 'triangle';
+  o2.frequency.setValueAtTime(rating === 300 ? 700 : rating === 170 ? 550 : 400, now);
+  o2.frequency.exponentialRampToValueAtTime(150, now + 0.08);
+  f2.type = 'bandpass'; f2.frequency.value = 800; f2.Q.value = 2;
+  o2.connect(f2); f2.connect(g2); g2.connect(audioCtx.destination);
+  g2.gain.setValueAtTime(0.5 * vol, now);
+  g2.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+  o2.start(now); o2.stop(now + 0.1);
+
+  // Layer 3: Noise burst (snare-like crack)
+  const bufLen = Math.floor(audioCtx.sampleRate * 0.05);
+  const noiseBuf = audioCtx.createBuffer(1, bufLen, audioCtx.sampleRate);
+  const noiseData = noiseBuf.getChannelData(0);
+  for (let i = 0; i < bufLen; i++) noiseData[i] = (Math.random() * 2 - 1) * (1 - i / bufLen);
+  const noiseSrc = audioCtx.createBufferSource();
+  noiseSrc.buffer = noiseBuf;
+  const ng = audioCtx.createGain(), nf2 = audioCtx.createBiquadFilter();
+  nf2.type = 'bandpass'; nf2.frequency.value = rating === 300 ? 5000 : 3500; nf2.Q.value = 1.5;
+  noiseSrc.connect(nf2); nf2.connect(ng); ng.connect(audioCtx.destination);
+  ng.gain.setValueAtTime(0.35 * vol, now);
+  ng.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+  noiseSrc.start(now); noiseSrc.stop(now + 0.05);
+
+  // Layer 4: Sub-bass thump
+  const sub = audioCtx.createOscillator(), sg = audioCtx.createGain();
+  sub.type = 'sine';
+  sub.frequency.setValueAtTime(rating === 300 ? 120 : 90, now);
+  sub.frequency.exponentialRampToValueAtTime(30, now + 0.1);
+  sub.connect(sg); sg.connect(audioCtx.destination);
+  sg.gain.setValueAtTime(0.4 * vol, now);
+  sg.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+  sub.start(now); sub.stop(now + 0.12);
+
+  // Layer 5: High sparkle for perfect hits
+  if (rating === 300) {
+    const sp = audioCtx.createOscillator(), spg = audioCtx.createGain();
+    sp.type = 'sine'; sp.frequency.value = 2400;
+    sp.connect(spg); spg.connect(audioCtx.destination);
+    spg.gain.setValueAtTime(0.12, now);
+    spg.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+    sp.start(now); sp.stop(now + 0.08);
+
+    const sp2 = audioCtx.createOscillator(), spg2 = audioCtx.createGain();
+    sp2.type = 'sine'; sp2.frequency.value = 3200;
+    sp2.connect(spg2); spg2.connect(audioCtx.destination);
+    spg2.gain.setValueAtTime(0.08, now + 0.01);
+    spg2.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+    sp2.start(now + 0.01); sp2.stop(now + 0.06);
+  }
 }
+
 function playMissSound() {
   if (!audioCtx) return;
   const now = audioCtx.currentTime;
-  const o = audioCtx.createOscillator(), g = audioCtx.createGain();
-  o.connect(g); g.connect(audioCtx.destination);
-  o.type = 'sawtooth'; o.frequency.value = 150;
-  g.gain.setValueAtTime(0.12, now);
-  g.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
-  o.start(now); o.stop(now + 0.25);
+  const o = audioCtx.createOscillator(), g = audioCtx.createGain(), f = audioCtx.createBiquadFilter();
+  o.connect(f); f.connect(g); g.connect(audioCtx.destination);
+  o.type = 'sawtooth';
+  o.frequency.setValueAtTime(200, now);
+  o.frequency.exponentialRampToValueAtTime(80, now + 0.2);
+  f.type = 'lowpass'; f.frequency.value = 400;
+  g.gain.setValueAtTime(0.15, now);
+  g.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+  o.start(now); o.stop(now + 0.2);
+
+  // Soft noise thud
+  const bufLen = Math.floor(audioCtx.sampleRate * 0.08);
+  const nBuf = audioCtx.createBuffer(1, bufLen, audioCtx.sampleRate);
+  const nd = nBuf.getChannelData(0);
+  for (let i = 0; i < bufLen; i++) nd[i] = (Math.random() * 2 - 1) * (1 - i / bufLen) * 0.5;
+  const ns = audioCtx.createBufferSource(); ns.buffer = nBuf;
+  const ng = audioCtx.createGain(), nf = audioCtx.createBiquadFilter();
+  nf.type = 'lowpass'; nf.frequency.value = 800;
+  ns.connect(nf); nf.connect(ng); ng.connect(audioCtx.destination);
+  ng.gain.setValueAtTime(0.12, now);
+  ng.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+  ns.start(now); ns.stop(now + 0.1);
 }
 function playDoubleVoice() {
   if (!audioCtx) return;
@@ -1067,9 +2266,47 @@ function spawnParticles(x, y, color, count) {
   }
 }
 function addHitEffect(x, y, rating) {
-  const colors = { 300: '#a855f7', 170: '#38bdf8', 100: '#facc15' };
-  hitEffects.push({ x, y, text: String(rating), color: colors[rating], life: 1, vy: -1.5 });
-  spawnParticles(x, y, colors[rating], rating === 300 ? 12 : 8);
+  const labels = { 300: 'PERFECT', 170: 'GREAT', 100: 'OK' };
+  const colors = { 300: '#22c55e', 170: '#38bdf8', 100: '#facc15' };
+  hitEffects.push({ x, y, text: labels[rating], color: colors[rating], life: 1, vy: -2.0 });
+  spawnParticles(x, y, colors[rating], rating === 300 ? 15 : 10);
+  timingFeedbacks.push({ x: x + (Math.random() - 0.5) * 40, y: y - 30, text: labels[rating], color: colors[rating], life: 1 });
+}
+
+function playSlideSound() {
+  if (!audioCtx) return;
+  const now = audioCtx.currentTime;
+  const bufLen = Math.floor(audioCtx.sampleRate * 0.18);
+  const buf = audioCtx.createBuffer(1, bufLen, audioCtx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < bufLen; i++) {
+    const t = i / bufLen;
+    data[i] = (Math.random() * 2 - 1) * Math.sin(t * Math.PI) * (0.3 + 0.7 * (1 - t));
+  }
+  const src = audioCtx.createBufferSource(); src.buffer = buf;
+  const g = audioCtx.createGain(), f = audioCtx.createBiquadFilter();
+  f.type = 'bandpass'; f.frequency.setValueAtTime(3000, now); f.frequency.exponentialRampToValueAtTime(800, now + 0.15); f.Q.value = 0.8;
+  src.connect(f); f.connect(g); g.connect(audioCtx.destination);
+  g.gain.setValueAtTime(0.45, now);
+  g.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+  src.start(now); src.stop(now + 0.18);
+
+  const o = audioCtx.createOscillator(), og = audioCtx.createGain();
+  o.type = 'sine'; o.frequency.setValueAtTime(1200, now); o.frequency.exponentialRampToValueAtTime(300, now + 0.12);
+  o.connect(og); og.connect(audioCtx.destination);
+  og.gain.setValueAtTime(0.15, now); og.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+  o.start(now); o.stop(now + 0.12);
+}
+
+function playHoldTickSound() {
+  if (!audioCtx) return;
+  const now = audioCtx.currentTime;
+  const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+  o.type = 'sine'; o.frequency.value = 880;
+  o.connect(g); g.connect(audioCtx.destination);
+  g.gain.setValueAtTime(0.08, now);
+  g.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+  o.start(now); o.stop(now + 0.04);
 }
 
 // ============================================================
@@ -1090,28 +2327,81 @@ async function setupHands() {
   if (handsInstance) return handsInstance;
   return new Promise((resolve) => {
     const hands = new Hands({ locateFile: (f) => 'https://cdn.jsdelivr.net/npm/@mediapipe/hands/' + f });
-    hands.setOptions({ maxNumHands: 2, modelComplexity: 0, minDetectionConfidence: 0.35, minTrackingConfidence: 0.3 });
+    hands.setOptions({ maxNumHands: 2, modelComplexity: 0, minDetectionConfidence: 0.25, minTrackingConfidence: 0.2 });
     hands.onResults((results) => {
-      if (!gameRunning) return;
+      if (!gameRunning && !tutRunning) return;
       try {
         const handsData = results.multiHandLandmarks;
         if (!handsData || handsData.length === 0) {
           prevFingerState = [];
           smoothedFingers = [];
           fingerPositions = [];
+          if (tutRunning) tutFingerPositions = [];
           return;
         }
 
         const rawFingers = [];
         for (const hand of handsData) {
-          const tips = [4, 8, 12, 16, 20], pips = [3, 6, 10, 14, 18];
+          // MediaPipe landmark indices:
+          // 0=wrist, 1-4=thumb(CMC,MCP,IP,TIP), 5-8=index(MCP,PIP,DIP,TIP)
+          // 9-12=middle, 13-16=ring, 17-20=pinky
+          const tips = [4, 8, 12, 16, 20];
+          const pips = [3, 6, 10, 14, 18];
+          const mcps = [2, 5, 9, 13, 17];
+          const dips = [7, 11, 15, 19];
+
           for (let i = 0; i < tips.length; i++) {
-            const yDiff = hand[tips[i]].y - hand[pips[i]].y;
-          const isOpen = (tips[i] === 4)
-            ? hand[tips[i]].x < hand[pips[i]].x - 0.02
-            : yDiff < 0.08;
-          if (isOpen) {
-            rawFingers.push({ x: (1 - hand[tips[i]].x) * W, y: hand[tips[i]].y * H });
+            const tip = hand[tips[i]];
+            const pip = hand[pips[i]];
+            const mcp = hand[mcps[i]];
+            const isThumb = (tips[i] === 4);
+
+            // Very lenient detection: track finger in almost any pose
+            let detected = false;
+
+            if (isThumb) {
+              // Thumb: detect if tip is away from palm center in any direction
+              const palmCenter = hand[9]; // middle finger MCP as palm reference
+              const dxTip = Math.abs(tip.x - palmCenter.x);
+              const dyTip = Math.abs(tip.y - palmCenter.y);
+              if (dxTip > 0.04 || dyTip > 0.08) detected = true;
+              // Also detect if thumb tip is extended sideways from index
+              if (tip.x < pip.x - 0.01 || tip.x > pip.x + 0.01) detected = true;
+            } else {
+              const yDiff = tip.y - pip.y;
+              // Extended: tip above pip
+              if (yDiff < 0.08) detected = true;
+              // Slightly curled: tip still near pip
+              else if (yDiff < 0.12) detected = true;
+              // Bent but visible: use distance between tip and MCP
+              else {
+                const distTipMcp = Math.sqrt((tip.x - mcp.x) ** 2 + (tip.y - mcp.y) ** 2);
+                if (distTipMcp > 0.06) detected = true;
+              }
+            }
+
+            if (detected) {
+              // Primary point: fingertip
+              rawFingers.push({ x: (1 - tip.x) * W, y: tip.y * H });
+              // Secondary point: DIP joint (finger back) - adds coverage for bent fingers
+              if (!isThumb && dips[i]) {
+                const dip = hand[dips[i]];
+                const dipDist = Math.sqrt((tip.x - dip.x) ** 2 + (tip.y - dip.y) ** 2);
+                if (dipDist > 0.03) {
+                  rawFingers.push({ x: (1 - dip.x) * W, y: dip.y * H });
+                }
+              }
+            }
+          }
+
+          // Fallback: if no fingers detected, track wrist + knuckles (closed fist)
+          if (rawFingers.length === 0) {
+            const wrist = hand[0];
+            rawFingers.push({ x: (1 - wrist.x) * W, y: wrist.y * H });
+            // Track MCP joints (knuckles) when fist is closed
+            for (const mcpIdx of [5, 9, 13, 17]) {
+              const mcp = hand[mcpIdx];
+              rawFingers.push({ x: (1 - mcp.x) * W, y: mcp.y * H });
             }
           }
         }
@@ -1120,6 +2410,7 @@ async function setupHands() {
           prevFingerState = [];
           smoothedFingers = [];
           fingerPositions = [];
+          if (tutRunning) tutFingerPositions = [];
           return;
         }
 
@@ -1147,6 +2438,7 @@ async function setupHands() {
 
         prevFingerState = rawFingers;
         fingerPositions = smoothedFingers.map(f => ({ x: f.x, y: f.y }));
+        if (tutRunning) tutFingerPositions = fingerPositions;
       } catch (e) {
         console.warn('onResults error:', e);
       }
@@ -1166,50 +2458,214 @@ async function setupHands() {
 //  HIT DETECTION
 // ============================================================
 function checkHits(elapsed) {
-  if (fingerPositions.length === 0) return;
   const hitWindow = selectedDiff === 'easy' ? 450 : selectedDiff === 'hard' ? 260 : 350;
-  let firstUnhit = null;
-  for (const note of activeNotes) {
-    if (!note.hit && !note.missed) { firstUnhit = note; break; }
+  const adjustedElapsed = elapsed + timingOffset;
+
+  // Track slide in progress
+  if (slideState) {
+    const sn = slideState.note;
+    const elapsed2 = performance.now() - slideState.startTime;
+    const slideTimeout = (sn.slideTime || 600) * 3;
+
+    // Find the finger closest to our locked finger position
+    let bestDist = Infinity;
+    let bestFp = null;
+    for (const fp of fingerPositions) {
+      const ddx = fp.x - slideState.lockedFingerX, ddy = fp.y - slideState.lockedFingerY;
+      const d = Math.sqrt(ddx * ddx + ddy * ddy);
+      if (d < bestDist) { bestDist = d; bestFp = fp; }
+    }
+
+    if (bestFp && bestDist < 120) {
+      // Update trail to follow THIS specific finger
+      slideState.lastFingerX = bestFp.x;
+      slideState.lastFingerY = bestFp.y;
+      slideState.lockedFingerX = bestFp.x;
+      slideState.lockedFingerY = bestFp.y;
+
+      // Check if THIS finger reached the end
+      const ddx = bestFp.x - sn.endX, ddy = bestFp.y - sn.endY;
+      const distToEnd = Math.sqrt(ddx * ddx + ddy * ddy);
+      slideState.progress = Math.max(0, 1 - distToEnd / 400);
+
+      if (distToEnd < sn.radius * 3.5) {
+        sn.hit = true; sn.fadeOut = 1;
+        playSlideSound();
+        const absTD = Math.abs(adjustedElapsed - sn.time + 50);
+        let rating = absTD < 160 ? 300 : absTD < 250 ? 170 : 100;
+        counts[rating]++; combo++;
+        if (combo > maxCombo) maxCombo = combo;
+        const mult = doubleActive ? 2 : 1;
+        score += (rating / 300) * (10000 / notes.length) * mult;
+        if (combo >= 50 && !doubleActive) { doubleActive = true; doubleEndTime = performance.now() + 10000; energy = 50; playDoubleVoice(); }
+        playHitSound(rating); addHitEffect(sn.endX, sn.endY, rating);
+        if (slideState.fingerIdx != null) fingerOccupied.delete(slideState.fingerIdx);
+        slideState = null; updateHUD(); return;
+      }
+    }
+
+    if (elapsed2 > slideTimeout) {
+      sn.missed = true; counts.miss++; combo = 0; energy = 0;
+      if (doubleActive) { doubleActive = false; document.getElementById('doubleLabel').classList.remove('active'); }
+      if (slideState.fingerIdx != null) fingerOccupied.delete(slideState.fingerIdx);
+      playMissSound(); slideState = null; updateHUD();
+    }
+    return;
   }
-  if (!firstUnhit) return;
-  const timeDiff = elapsed - firstUnhit.time;
-  const adjustedTD = timeDiff + 50;
-  if (timeDiff < -hitWindow || timeDiff > hitWindow * 0.8) return;
-  for (const fp of fingerPositions) {
-    const dx = fp.x - firstUnhit.x, dy = fp.y - firstUnhit.y;
-    if (Math.sqrt(dx * dx + dy * dy) < firstUnhit.radius * 3.0) {
-      firstUnhit.hit = true;
-      const absTD = Math.abs(adjustedTD);
-      let rating = absTD < 120 ? 300 : absTD < 200 ? 170 : 100;
-      counts[rating]++;
-      combo++;
+
+  // Track hold in progress
+  if (holdState) {
+    const hn = holdState.note;
+    const holdDur = hn.holdDuration || 1000;
+    holdState.heldTime = performance.now() - holdState.startTime;
+
+    let fingerNear = false;
+    if (fingerPositions.length > 0 && holdState.fingerIdx != null && holdState.fingerIdx < fingerPositions.length) {
+      const fp = fingerPositions[holdState.fingerIdx];
+      const ddx = fp.x - hn.x, ddy = fp.y - hn.y;
+      if (Math.sqrt(ddx * ddx + ddy * ddy) < hn.radius * 3.5) fingerNear = true;
+    } else if (fingerPositions.length > 0) {
+      // Fallback: check any finger if locked finger lost
+      for (const fp of fingerPositions) {
+        const ddx = fp.x - hn.x, ddy = fp.y - hn.y;
+        if (Math.sqrt(ddx * ddx + ddy * ddy) < hn.radius * 3.5) { fingerNear = true; break; }
+      }
+    }
+
+    if (!fingerNear && holdState.heldTime < holdDur * 0.7) {
+      hn.missed = true; counts.miss++; combo = 0; energy = 0;
+      if (doubleActive) { doubleActive = false; document.getElementById('doubleLabel').classList.remove('active'); }
+      if (holdState.fingerIdx != null) fingerOccupied.delete(holdState.fingerIdx);
+      playMissSound(); holdState = null; updateHUD();
+    } else if (holdState.heldTime >= holdDur) {
+      hn.hit = true; hn.fadeOut = 1;
+      let rating = 300;
+      counts[rating]++; combo++;
       if (combo > maxCombo) maxCombo = combo;
       const mult = doubleActive ? 2 : 1;
       score += (rating / 300) * (10000 / notes.length) * mult;
-      if (combo >= 50 && !doubleActive) {
-        doubleActive = true;
-        doubleEndTime = performance.now() + 10000;
-        energy = 50;
-        playDoubleVoice();
+      if (combo >= 50 && !doubleActive) { doubleActive = true; doubleEndTime = performance.now() + 10000; energy = 50; playDoubleVoice(); }
+      playHitSound(rating); addHitEffect(hn.x, hn.y, rating);
+      if (holdState.fingerIdx != null) fingerOccupied.delete(holdState.fingerIdx);
+      holdState = null; updateHUD();
+    } else if (fingerNear) {
+      // Tick sound periodically while holding
+      if (!holdState.lastTick || performance.now() - holdState.lastTick > 200) {
+        playHoldTickSound();
+        holdState.lastTick = performance.now();
       }
-      playHitSound(rating);
-      addHitEffect(firstUnhit.x, firstUnhit.y, rating);
-      firstUnhit.fadeOut = 1;
-      updateHUD();
+    }
+    return;
+  }
+
+  if (fingerPositions.length === 0) { proximityGlow = null; nearNoteHint = null; return; }
+
+  // Clean up expired finger occupation (200ms cooldown after tap)
+  const now = performance.now();
+  for (const [idx, info] of fingerOccupied) {
+    if (info.releaseTime && now > info.releaseTime) fingerOccupied.delete(idx);
+  }
+
+  // Find all unhit notes within the hit window
+  const candidates = [];
+  for (const note of activeNotes) {
+    if (note.hit || note.missed) continue;
+    const timeDiff = adjustedElapsed - note.time;
+    if (timeDiff < -hitWindow || timeDiff > hitWindow * 0.8) continue;
+    candidates.push(note);
+  }
+  if (candidates.length === 0) { proximityGlow = null; nearNoteHint = null; return; }
+
+  // For each candidate note, find closest FREE finger
+  let bestCandidate = null, bestFinger = null, bestDist = Infinity;
+  for (const note of candidates) {
+    const noteType = note.type || 'tap';
+    const touchR = note.radius * 3.0;
+    for (let fi = 0; fi < fingerPositions.length; fi++) {
+      const fp = fingerPositions[fi];
+      // Skip fingers that are occupied by another note
+      const occ = fingerOccupied.get(fi);
+      if (occ && occ.note !== note) continue;
+      const ddx = fp.x - note.x, ddy = fp.y - note.y;
+      const dist = Math.sqrt(ddx * ddx + ddy * ddy);
+      if (dist < touchR && dist < bestDist) {
+        bestDist = dist; bestCandidate = note; bestFinger = fi;
+      }
+    }
+  }
+
+  if (!bestCandidate) { proximityGlow = null; nearNoteHint = null; return; }
+
+  const noteType = bestCandidate.type || 'tap';
+  const touchRadius = bestCandidate.radius * 3.0;
+
+  // Proximity feedback for closest note-finger pair
+  const fp = fingerPositions[bestFinger];
+  const pdx = fp.x - bestCandidate.x, pdy = fp.y - bestCandidate.y;
+  const pDist = Math.sqrt(pdx * pdx + pdy * pdy);
+  if (pDist < touchRadius * 2.5 && pDist > touchRadius) {
+    const proximity = 1 - (pDist - touchRadius) / (touchRadius * 1.5);
+    proximityGlow = { x: bestCandidate.x, y: bestCandidate.y, radius: bestCandidate.radius, color: noteType === 'slide' ? '#facc15' : noteType === 'hold' ? '#60a5fa' : '#a855f7', alpha: proximity * 0.4 };
+    nearNoteHint = { note: bestCandidate, alpha: proximity };
+  } else {
+    proximityGlow = null;
+    nearNoteHint = pDist <= touchRadius ? { note: bestCandidate, alpha: 1 } : null;
+  }
+
+  if (bestDist < touchRadius) {
+    const fpObj = fingerPositions[bestFinger];
+    if (noteType === 'slide') {
+      slideState = { note: bestCandidate, startTime: now, progress: 0, lastFingerX: fpObj.x, lastFingerY: fpObj.y, lockedFingerX: fpObj.x, lockedFingerY: fpObj.y, fingerIdx: bestFinger };
+      fingerOccupied.set(bestFinger, { note: bestCandidate, releaseTime: null });
+      playSlideSound();
+      proximityGlow = null; nearNoteHint = null;
+      return;
+    } else if (noteType === 'hold') {
+      holdState = { note: bestCandidate, startTime: now, heldTime: 0, lastTick: 0, fingerIdx: bestFinger };
+      fingerOccupied.set(bestFinger, { note: bestCandidate, releaseTime: null });
+      proximityGlow = null; nearNoteHint = null;
+      return;
+    } else {
+      bestCandidate.hit = true;
+      const timeDiff = adjustedElapsed - bestCandidate.time;
+      const absTD = Math.abs(timeDiff + 50);
+      let rating = absTD < 120 ? 300 : absTD < 200 ? 170 : 100;
+      counts[rating]++; combo++;
+      if (combo > maxCombo) maxCombo = combo;
+      const mult = doubleActive ? 2 : 1;
+      score += (rating / 300) * (10000 / notes.length) * mult;
+      if (combo >= 50 && !doubleActive) { doubleActive = true; doubleEndTime = performance.now() + 10000; energy = 50; playDoubleVoice(); }
+      playHitSound(rating); addHitEffect(bestCandidate.x, bestCandidate.y, rating);
+      bestCandidate.fadeOut = 1; updateHUD();
+      // Mark finger as occupied for 200ms to prevent double-hit
+      fingerOccupied.set(bestFinger, { note: bestCandidate, releaseTime: now + 200 });
+      proximityGlow = null; nearNoteHint = null;
       return;
     }
   }
 }
 function checkMisses(elapsed) {
   const missWindow = selectedDiff === 'easy' ? 650 : selectedDiff === 'hard' ? 350 : 500;
+  const adjustedElapsed = elapsed + timingOffset;
   for (const note of activeNotes) {
     if (note.hit || note.missed) continue;
-    if (elapsed - note.time > missWindow) {
+    const noteType = note.type || 'tap';
+    let missTime = missWindow;
+    if (noteType === 'hold') missTime = missWindow + (note.holdDuration || 1000);
+    else if (noteType === 'slide') missTime = missWindow + (note.slideTime || 600);
+    if (adjustedElapsed - note.time > missTime) {
       note.missed = true;
       counts.miss++;
       combo = 0;
       energy = 0;
+      if (slideState && slideState.note === note) {
+        if (slideState.fingerIdx != null) fingerOccupied.delete(slideState.fingerIdx);
+        slideState = null;
+      }
+      if (holdState && holdState.note === note) {
+        if (holdState.fingerIdx != null) fingerOccupied.delete(holdState.fingerIdx);
+        holdState = null;
+      }
       if (doubleActive) {
         doubleActive = false;
         document.getElementById('doubleLabel').classList.remove('active');
@@ -1248,17 +2704,54 @@ function updateHUD() {
 }
 
 // ============================================================
+//  DRAWING HELPERS
+// ============================================================
+function drawStar(cx, cy, outerR, innerR, points, rotation) {
+  ctx.beginPath();
+  for (let i = 0; i < points * 2; i++) {
+    const r = i % 2 === 0 ? outerR : innerR;
+    const angle = (Math.PI * i / points) - Math.PI / 2 + (rotation || 0);
+    const x = cx + Math.cos(angle) * r;
+    const y = cy + Math.sin(angle) * r;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+}
+
+function drawArrowLine(x1, y1, x2, y2, color, lineWidth) {
+  const dx = x2 - x1, dy = y2 - y1;
+  const len = Math.sqrt(dx * dx + dy * dy);
+  if (len < 1) return;
+  const nx = dx / len, ny = dy / len;
+  const headLen = 14;
+  ctx.beginPath();
+  ctx.moveTo(x1, y1); ctx.lineTo(x2, y2);
+  ctx.strokeStyle = color; ctx.lineWidth = lineWidth; ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - headLen * nx + headLen * 0.4 * ny, y2 - headLen * ny - headLen * 0.4 * nx);
+  ctx.lineTo(x2 - headLen * nx - headLen * 0.4 * ny, y2 - headLen * ny + headLen * 0.4 * nx);
+  ctx.closePath();
+  ctx.fillStyle = color; ctx.fill();
+}
+
+// ============================================================
 //  DRAWING
 // ============================================================
 function drawNote(note, elapsed) {
+  const type = note.type || 'tap';
+  if (type === 'slide') return drawSlideNote(note, elapsed);
+  if (type === 'hold') return drawHoldNote(note, elapsed);
+  drawTapNote(note, elapsed);
+}
+
+function drawTapNote(note, elapsed) {
   const timeDiff = elapsed - note.time;
   const progress = 1 - Math.max(0, 1 - (timeDiff + note.approachDuration) / note.approachDuration);
   const r = note.radius;
 
-  const hitW = selectedDiff === 'easy' ? 450 : selectedDiff === 'hard' ? 260 : 350;
   let zone = 'miss';
   if (Math.abs(timeDiff + 50) < 120) zone = 'perfect';
-
   const zCol = { perfect: '#22c55e', miss: '#64748b' };
   const noteCol = { perfect: '#22c55e', miss: '#94a3b8' };
 
@@ -1285,8 +2778,6 @@ function drawNote(note, elapsed) {
   }
 
   const alpha = Math.min(1, progress * 2);
-
-  // Note body
   ctx.globalAlpha = alpha * 0.92;
   ctx.beginPath(); ctx.arc(note.x, note.y, r, 0, Math.PI * 2);
   const bg = ctx.createRadialGradient(note.x - r * 0.3, note.y - r * 0.3, 0, note.x, note.y, r);
@@ -1296,22 +2787,229 @@ function drawNote(note, elapsed) {
   ctx.fillStyle = bg; ctx.fill();
   ctx.beginPath(); ctx.arc(note.x, note.y, r, 0, Math.PI * 2);
   ctx.strokeStyle = noteCol[zone]; ctx.lineWidth = 3.5; ctx.stroke();
-
-  // Inner glow ring
   ctx.beginPath(); ctx.arc(note.x, note.y, r * 0.55, 0, Math.PI * 2);
   ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 1.5; ctx.stroke();
 
-  // Approach circle
   if (progress > 0) {
     const aR = r * (2.5 - progress * 1.5);
     const aa = Math.min(1, (1 - progress) * 2) * 0.95;
     let rc, gc, lw;
-    if (zone === 'perfect') {
-      rc = '#22c55e'; gc = 'rgba(34,197,94,0.4)'; lw = 7;
-    } else {
-      rc = progress < 0.5 ? '#818cf8' : '#f43f5e';
-      gc = progress < 0.5 ? 'rgba(129,140,248,0.15)' : 'rgba(244,63,94,0.2)'; lw = 4;
-    }
+    if (zone === 'perfect') { rc = '#22c55e'; gc = 'rgba(34,197,94,0.4)'; lw = 7; }
+    else { rc = progress < 0.5 ? '#818cf8' : '#f43f5e'; gc = progress < 0.5 ? 'rgba(129,140,248,0.15)' : 'rgba(244,63,94,0.2)'; lw = 4; }
+    ctx.globalAlpha = aa * 0.35;
+    ctx.beginPath(); ctx.arc(note.x, note.y, aR + 8, 0, Math.PI * 2);
+    ctx.strokeStyle = gc; ctx.lineWidth = 16; ctx.stroke();
+    ctx.globalAlpha = aa;
+    ctx.beginPath(); ctx.arc(note.x, note.y, aR, 0, Math.PI * 2);
+    ctx.strokeStyle = rc; ctx.lineWidth = lw; ctx.stroke();
+  }
+  const remain = Math.max(0, -timeDiff);
+  ctx.globalAlpha = alpha;
+  ctx.fillStyle = zCol[zone];
+  ctx.font = 'bold 30px "Inter",sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 8;
+  ctx.fillText((remain / 1000).toFixed(1), note.x, note.y - 1);
+  ctx.shadowBlur = 0;
+  ctx.globalAlpha = 1;
+}
+
+function drawSlideNote(note, elapsed) {
+  const timeDiff = elapsed - note.time;
+  const progress = 1 - Math.max(0, 1 - (timeDiff + note.approachDuration) / note.approachDuration);
+  const r = note.radius;
+  const ex = note.endX, ey = note.endY;
+  const dx = ex - note.x, dy = ey - note.y;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  const slideTime = note.slideTime || 600;
+
+  const isSliding = slideState && slideState.note === note;
+
+  if (note.hit) {
+    note.fadeOut -= 0.05;
+    if (note.fadeOut <= 0) return;
+    ctx.globalAlpha = note.fadeOut;
+    drawStar(ex, ey, r * 1.4 * (1 + (1 - note.fadeOut) * 0.5), r * 0.55, 5, performance.now() * 0.002);
+    ctx.fillStyle = 'rgba(50,205,50,0.35)'; ctx.fill();
+    ctx.strokeStyle = '#22c55e'; ctx.lineWidth = 3; ctx.stroke();
+    ctx.globalAlpha = 1; return;
+  }
+  if (note.missed) {
+    note.fadeOut -= 0.03;
+    if (note.fadeOut <= 0) return;
+    ctx.globalAlpha = note.fadeOut * 0.6;
+    ctx.beginPath(); ctx.arc(note.x, note.y, r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(239,68,68,0.2)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(ex, ey, r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(239,68,68,0.2)'; ctx.fill();
+    ctx.globalAlpha = 1; return;
+  }
+
+  const alpha = Math.min(1, progress * 2);
+
+  // Finger trail during slide
+  if (isSliding && slideState.lastFingerX != null) {
+    ctx.globalAlpha = 0.6;
+    ctx.beginPath(); ctx.moveTo(note.x, note.y);
+    ctx.lineTo(slideState.lastFingerX, slideState.lastFingerY);
+    ctx.strokeStyle = '#facc15'; ctx.lineWidth = 6; ctx.lineCap = 'round'; ctx.stroke();
+    ctx.globalAlpha = 0.3;
+    ctx.beginPath(); ctx.arc(slideState.lastFingerX, slideState.lastFingerY, 18, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(250,204,21,0.5)'; ctx.fill();
+    ctx.lineCap = 'butt';
+  }
+
+  // Slide trail line (dashed)
+  ctx.globalAlpha = alpha * 0.5;
+  ctx.setLineDash([8, 6]);
+  ctx.beginPath(); ctx.moveTo(note.x, note.y); ctx.lineTo(ex, ey);
+  ctx.strokeStyle = '#facc15'; ctx.lineWidth = 3; ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Start position - approach circle + circle
+  ctx.globalAlpha = alpha * 0.85;
+  ctx.beginPath(); ctx.arc(note.x, note.y, r * 0.7, 0, Math.PI * 2);
+  const sbg = ctx.createRadialGradient(note.x, note.y, 0, note.x, note.y, r * 0.7);
+  sbg.addColorStop(0, 'rgba(250,204,21,0.7)');
+  sbg.addColorStop(1, 'rgba(245,158,11,0.4)');
+  ctx.fillStyle = sbg; ctx.fill();
+  ctx.strokeStyle = '#facc15'; ctx.lineWidth = 2.5; ctx.stroke();
+
+  // Approach circle at START position (so user knows where to touch)
+  if (progress > 0 && !isSliding) {
+    const aR = r * (2.2 - progress * 1.2);
+    const aa = Math.min(1, (1 - progress) * 2) * 0.9;
+    ctx.globalAlpha = aa * 0.3;
+    ctx.beginPath(); ctx.arc(note.x, note.y, aR + 8, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(250,204,21,0.4)'; ctx.lineWidth = 14; ctx.stroke();
+    ctx.globalAlpha = aa;
+    ctx.beginPath(); ctx.arc(note.x, note.y, aR, 0, Math.PI * 2);
+    ctx.strokeStyle = progress < 0.5 ? '#fbbf24' : '#f43f5e';
+    ctx.lineWidth = 5; ctx.stroke();
+  }
+
+  // End position - star (always visible)
+  ctx.globalAlpha = alpha * 0.92;
+  const rot = elapsed * 0.001;
+  drawStar(ex, ey, r * 1.2, r * 0.48, 5, rot);
+  const ebg = ctx.createRadialGradient(ex, ey, 0, ex, ey, r * 1.2);
+  ebg.addColorStop(0, 'rgba(250,204,21,0.95)');
+  ebg.addColorStop(0.5, 'rgba(251,191,36,0.85)');
+  ebg.addColorStop(1, 'rgba(217,119,6,0.7)');
+  ctx.fillStyle = ebg; ctx.fill();
+  ctx.strokeStyle = '#fde68a'; ctx.lineWidth = 3; ctx.stroke();
+
+  // Inner star glow
+  ctx.globalAlpha = alpha * 0.3;
+  drawStar(ex, ey, r * 1.5, r * 0.65, 5, rot + 0.3);
+  ctx.fillStyle = 'rgba(250,204,21,0.2)'; ctx.fill();
+
+  // Arrow direction hint (pulsing)
+  if (progress > 0.3 && dist > 30) {
+    const pulse = Math.abs(Math.sin((elapsed - note.time + note.approachDuration) * 0.006));
+    ctx.globalAlpha = alpha * 0.6 * pulse;
+    drawArrowLine(note.x + dx * 0.2, note.y + dy * 0.2, note.x + dx * 0.5, note.y + dy * 0.5, '#fde68a', 3);
+  }
+
+  // Label
+  ctx.globalAlpha = alpha * 0.8;
+  ctx.fillStyle = '#facc15';
+  ctx.font = 'bold 30px "Orbitron",sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 6;
+  ctx.fillText('\u2190 SLIDE \u2192', (note.x + ex) / 2, (note.y + ey) / 2 - 20);
+  ctx.shadowBlur = 0;
+  ctx.globalAlpha = 1;
+}
+
+function drawHoldNote(note, elapsed) {
+  const timeDiff = elapsed - note.time;
+  const progress = 1 - Math.max(0, 1 - (timeDiff + note.approachDuration) / note.approachDuration);
+  const r = note.radius;
+  const holdDur = note.holdDuration || 1000;
+
+  if (note.hit) {
+    note.fadeOut -= 0.04;
+    if (note.fadeOut <= 0) return;
+    ctx.globalAlpha = note.fadeOut;
+    ctx.beginPath(); ctx.arc(note.x, note.y, r * (1 + (1 - note.fadeOut) * 0.5), 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(56,189,248,0.3)'; ctx.fill();
+    ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 3; ctx.stroke();
+    ctx.globalAlpha = 1; return;
+  }
+  if (note.missed) {
+    note.fadeOut -= 0.03;
+    if (note.fadeOut <= 0) return;
+    ctx.globalAlpha = note.fadeOut * 0.6;
+    ctx.beginPath(); ctx.arc(note.x, note.y, r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(239,68,68,0.2)'; ctx.fill();
+    ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 3; ctx.stroke();
+    ctx.globalAlpha = 1; return;
+  }
+
+  const alpha = Math.min(1, progress * 2);
+
+  // Hold track (vertical bar showing duration)
+  const trackH = Math.min(holdDur * 0.12, H * 0.25);
+  const holdProgress = (holdState && holdState.note === note) ? Math.min(1, holdState.heldTime / holdDur) : 0;
+  const isHolding = holdState && holdState.note === note;
+
+  // Track background
+  ctx.globalAlpha = alpha * 0.35;
+  ctx.beginPath();
+  const tw = r * 1.2;
+  ctx.roundRect(note.x - tw / 2, note.y - r * 0.3, tw, trackH + r * 0.6, 8);
+  ctx.fillStyle = 'rgba(56,189,248,0.15)'; ctx.fill();
+  ctx.strokeStyle = 'rgba(56,189,248,0.3)'; ctx.lineWidth = 1.5; ctx.stroke();
+
+  // Track fill
+  if (holdProgress > 0) {
+    const fillH = trackH * holdProgress;
+    ctx.globalAlpha = alpha * 0.6;
+    const fg = ctx.createLinearGradient(0, note.y + r, 0, note.y + r + fillH);
+    fg.addColorStop(0, 'rgba(56,189,248,0.7)');
+    fg.addColorStop(1, 'rgba(168,85,247,0.7)');
+    ctx.beginPath();
+    ctx.roundRect(note.x - tw / 2 + 2, note.y + r * 0.3, tw - 4, fillH, 6);
+    ctx.fillStyle = fg; ctx.fill();
+  }
+
+  // Note body
+  ctx.globalAlpha = alpha * 0.92;
+  ctx.beginPath(); ctx.arc(note.x, note.y, r, 0, Math.PI * 2);
+  const bg = ctx.createRadialGradient(note.x - r * 0.3, note.y - r * 0.3, 0, note.x, note.y, r);
+  if (isHolding) {
+    bg.addColorStop(0, 'rgba(96,205,255,0.95)');
+    bg.addColorStop(0.6, 'rgba(56,189,248,0.85)');
+    bg.addColorStop(1, 'rgba(34,165,230,0.75)');
+  } else {
+    bg.addColorStop(0, 'rgba(147,197,253,0.9)');
+    bg.addColorStop(0.6, 'rgba(96,165,250,0.8)');
+    bg.addColorStop(1, 'rgba(59,130,246,0.7)');
+  }
+  ctx.fillStyle = bg; ctx.fill();
+  ctx.beginPath(); ctx.arc(note.x, note.y, r, 0, Math.PI * 2);
+  ctx.strokeStyle = isHolding ? '#38bdf8' : '#60a5fa'; ctx.lineWidth = 3.5; ctx.stroke();
+
+  // Inner glow
+  ctx.beginPath(); ctx.arc(note.x, note.y, r * 0.5, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 1.5; ctx.stroke();
+
+  // Pulse ring while holding
+  if (isHolding) {
+    const pulse = 1 + Math.sin(elapsed * 0.008) * 0.15;
+    ctx.globalAlpha = 0.4;
+    ctx.beginPath(); ctx.arc(note.x, note.y, r * pulse * 1.3, 0, Math.PI * 2);
+    ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2; ctx.stroke();
+  }
+
+  // Approach circle
+  if (progress > 0 && !isHolding) {
+    const aR = r * (2.5 - progress * 1.5);
+    const aa = Math.min(1, (1 - progress) * 2) * 0.95;
+    let rc, gc, lw;
+    rc = progress < 0.5 ? '#60a5fa' : '#f43f5e';
+    gc = progress < 0.5 ? 'rgba(96,165,250,0.15)' : 'rgba(244,63,94,0.2)'; lw = 4;
     ctx.globalAlpha = aa * 0.35;
     ctx.beginPath(); ctx.arc(note.x, note.y, aR + 8, 0, Math.PI * 2);
     ctx.strokeStyle = gc; ctx.lineWidth = 16; ctx.stroke();
@@ -1320,14 +3018,13 @@ function drawNote(note, elapsed) {
     ctx.strokeStyle = rc; ctx.lineWidth = lw; ctx.stroke();
   }
 
-  // Countdown
-  const remain = Math.max(0, -timeDiff);
-  ctx.globalAlpha = alpha;
-  ctx.fillStyle = zCol[zone];
-  ctx.font = 'bold 22px "Inter",sans-serif';
+  // Hold duration label
+  ctx.globalAlpha = alpha * 0.7;
+  ctx.fillStyle = '#93c5fd';
+  ctx.font = 'bold 26px "Inter",sans-serif';
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 8;
-  ctx.fillText((remain / 1000).toFixed(1), note.x, note.y - 1);
+  ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 6;
+  ctx.fillText((holdDur / 1000).toFixed(1) + 's', note.x, note.y - 1);
   ctx.shadowBlur = 0;
 
   ctx.globalAlpha = 1;
@@ -1360,12 +3057,48 @@ function drawParticles() {
 }
 function drawHitEffects() {
   for (let i = hitEffects.length - 1; i >= 0; i--) {
-    const e = hitEffects[i]; e.y += e.vy; e.life -= 0.025;
+    const e = hitEffects[i]; e.y += e.vy; e.life -= 0.018;
     if (e.life <= 0) { hitEffects.splice(i, 1); continue; }
     ctx.globalAlpha = e.life;
-    ctx.font = 'bold 28px "Orbitron",sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.shadowColor = e.color; ctx.shadowBlur = 12;
-    ctx.fillStyle = e.color; ctx.fillText(e.text, e.x, e.y);
+    ctx.font = 'bold 44px "Orbitron",sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.shadowColor = e.color; ctx.shadowBlur = 16;
+    ctx.fillStyle = e.color;
+    const scale = 1 + (1 - e.life) * 0.3;
+    ctx.save();
+    ctx.translate(e.x, e.y);
+    ctx.scale(scale, scale);
+    ctx.fillText(e.text, 0, 0);
+    ctx.restore();
+    ctx.shadowBlur = 0;
+  }
+  ctx.globalAlpha = 1;
+}
+
+function drawProximityGlow() {
+  if (!proximityGlow || proximityGlow.alpha <= 0) return;
+  const pg = proximityGlow;
+  ctx.globalAlpha = pg.alpha;
+  ctx.beginPath(); ctx.arc(pg.x, pg.y, pg.radius * 1.6, 0, Math.PI * 2);
+  const glow = ctx.createRadialGradient(pg.x, pg.y, pg.radius * 0.5, pg.x, pg.y, pg.radius * 1.6);
+  glow.addColorStop(0, pg.color + '40');
+  glow.addColorStop(1, pg.color + '00');
+  ctx.fillStyle = glow; ctx.fill();
+  ctx.beginPath(); ctx.arc(pg.x, pg.y, pg.radius * 1.3, 0, Math.PI * 2);
+  ctx.strokeStyle = pg.color; ctx.lineWidth = 2; ctx.stroke();
+  ctx.globalAlpha = 1;
+}
+
+function drawTimingFeedbacks() {
+  for (let i = timingFeedbacks.length - 1; i >= 0; i--) {
+    const tf = timingFeedbacks[i];
+    tf.y -= 1.2; tf.life -= 0.022;
+    if (tf.life <= 0) { timingFeedbacks.splice(i, 1); continue; }
+    ctx.globalAlpha = tf.life * 0.8;
+    ctx.font = 'bold 28px "Orbitron",sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.shadowColor = tf.color; ctx.shadowBlur = 8;
+    ctx.fillStyle = tf.color;
+    ctx.fillText(tf.text, tf.x, tf.y);
     ctx.shadowBlur = 0;
   }
   ctx.globalAlpha = 1;
@@ -1377,8 +3110,15 @@ function drawHitEffects() {
 function gameLoop() {
   if (!gameRunning) return;
   const elapsed = performance.now() - gameStartTime;
-  const totalDuration = notes.length > 0 ? notes[notes.length - 1].time + 3000 : 10000;
+  const track = musicLibrary[selectedTrackIdx];
+  const songDurMs = (track && track.duration ? track.duration : 60) * 1000;
+  const totalDuration = notes.length > 0 ? Math.max(notes[notes.length - 1].time + 3000, songDurMs + 4000) : 10000;
   document.getElementById('progressBar').style.width = Math.min(1, elapsed / totalDuration) * 100 + '%';
+
+  // End game if song duration exceeded and no active notes left
+  if (elapsed > songDurMs + 5000 && activeNotes.length === 0) {
+    endGame(); return;
+  }
 
   const lookAhead = notes.length > 0 ? notes[0].approachDuration + 1500 : 4000;
   while (currentIndex < notes.length && notes[currentIndex].time - lookAhead < elapsed) {
@@ -1401,8 +3141,10 @@ function gameLoop() {
 
   for (const note of activeNotes) drawNote(note, elapsed);
   drawFingers();
+  drawProximityGlow();
   drawParticles();
   drawHitEffects();
+  drawTimingFeedbacks();
 
   if (counts[300] + counts[170] + counts[100] + counts.miss >= notes.length && activeNotes.length === 0) {
     endGame(); return;
@@ -1412,6 +3154,7 @@ function gameLoop() {
 
 function endGame() {
   gameRunning = false;
+  slideState = null; holdState = null; fingerOccupied = new Map();
   if (gameAudioSource) try { gameAudioSource.stop(); } catch(e) {}
   gameAudioSource = null;
   const total = notes.length;
@@ -1427,10 +3170,17 @@ function endGame() {
   document.getElementById('result100').textContent = counts[100];
   document.getElementById('resultMiss').textContent = counts.miss;
   document.getElementById('resultAcc').textContent = acc.toFixed(2) + '%';
+  if (selectedTrackIdx >= 0 && selectedTrackIdx < musicLibrary.length) {
+    const lv = calculateLevel(musicLibrary[selectedTrackIdx]);
+    document.getElementById('resultLevel').innerHTML = '<span class="lv-badge ' + getLevelClass(lv) + '" style="font-size:1rem;padding:4px 14px">LV' + lv + '</span>';
+  }
   showScreen('resultScreen');
   document.getElementById('hud').classList.remove('visible');
+  // Submit score (fire-and-forget)
+  if (selectedTrackIdx >= 0 && selectedTrackIdx < musicLibrary.length) {
+    submitScore(musicLibrary[selectedTrackIdx].name, score, acc.toFixed(2), grade, maxCombo, selectedDiff);
+  }
 }
-
 // ============================================================
 //  LAUNCH GAME
 // ============================================================
@@ -1448,6 +3198,9 @@ async function launchGame() {
   hitEffects = []; particles = []; fingerPositions = [];
   smoothedFingers = []; prevFingerState = [];
   energy = 0; doubleActive = false; doubleEndTime = 0;
+  slideState = null; holdState = null; fingerHistory = [];
+  proximityGlow = null; timingFeedbacks = []; nearNoteHint = null;
+  fingerOccupied = new Map();
   notes = generateBeatmap(track, selectedDiff);
   document.getElementById('selectedMusicName').textContent = track.name;
   updateHUD();
@@ -1471,5 +3224,6 @@ async function launchGame() {
 
 buildMusicGrid();
 </script>
-</body>
-</html>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands_solution_packed_assets_loader.js" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands_solution_simd_wasm_bin.js" crossorigin="anonymous"></script></body></html>
