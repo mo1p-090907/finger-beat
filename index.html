@@ -341,7 +341,6 @@ body{overflow:hidden;background:#000;font-family:'Inter',sans-serif;user-select:
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 
 <script>
 const videoEl = document.getElementById('video');
@@ -1122,19 +1121,16 @@ self.onmessage = function(e) {
 let currentUser = null;
 let userProfile = null;
 let db = null;
-let storage = null;
 
 async function initFirebase() {
   firebase.initializeApp({
     apiKey: "AIzaSyDmi5q8-0a-Eg2b_CocvMbDAyyHyYC9nGg",
     authDomain: "mosu-3b6be.firebaseapp.com",
     projectId: "mosu-3b6be",
-    storageBucket: "mosu-3b6be.firebasestorage.app",
     messagingSenderId: "667744279203",
     appId: "1:667744279203:web:bd86425aded9798aed7d16"
   });
   db = firebase.firestore();
-  storage = firebase.storage();
   try {
     const cred = await firebase.auth().signInAnonymously();
     currentUser = { uid: cred.user.uid };
@@ -1311,8 +1307,45 @@ function populateSongFilter() {
 }
 
 // ============================================================
-//  COMMUNITY SONGS (Firestore + Firebase Storage)
+//  COMMUNITY SONGS (Firestore metadata + local IndexedDB audio)
 // ============================================================
+function openCommunityDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open('CommunityAudio', 1);
+    req.onupgradeneeded = (e) => {
+      const idb = e.target.result;
+      if (!idb.objectStoreNames.contains('audio')) idb.createObjectStore('audio');
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function saveLocalAudio(songId, wavBlob) {
+  const db = await openCommunityDB();
+  const tx = db.transaction('audio', 'readwrite');
+  tx.objectStore('audio').put(wavBlob, songId);
+  return new Promise((resolve, reject) => { tx.oncomplete = resolve; tx.onerror = () => reject(tx.error); });
+}
+
+async function loadLocalAudio(songId) {
+  const db = await openCommunityDB();
+  const tx = db.transaction('audio', 'readonly');
+  const blob = await new Promise((resolve, reject) => {
+    const req = tx.objectStore('audio').get(songId);
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+  return blob || null;
+}
+
+async function hasLocalAudio(songId) {
+  try {
+    const blob = await loadLocalAudio(songId);
+    return !!blob;
+  } catch (e) { return false; }
+}
+
 async function handleCommunityUpload(file) {
   if (!file) return;
   const overlay = document.getElementById('loadingOverlay');
@@ -1361,21 +1394,11 @@ self.onmessage = function(e) {
       duration: audioBuffer.duration,
     });
 
-    let audioURL = '';
-    try {
-      const ext = file.name.split('.').pop() || 'mp3';
-      loadingText.textContent = 'Uploading audio (' + Math.round(file.size / 1024 / 1024 * 10) / 10 + 'MB)...';
-      const storageRef = storage.ref().child('community_audio/' + songId + '.' + ext);
-      await Promise.race([
-        storageRef.put(file),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('Upload timeout (60s)')), 60000))
-      ]);
-      audioURL = await storageRef.getDownloadURL();
-    } catch (uploadErr) {
-      console.error('Storage upload failed:', uploadErr);
-      alert('Audio upload failed: ' + uploadErr.message + '\nMake sure Firebase Storage is enabled in the console.');
-    }
+    loadingText.textContent = 'Saving audio locally...';
+    const wavBlob = audioBufferToWav(audioBuffer);
+    await saveLocalAudio(songId, wavBlob);
 
+    loadingText.textContent = 'Publishing to cloud...';
     const songData = {
       songId,
       uploaderUid: currentUser.uid,
@@ -1388,11 +1411,8 @@ self.onmessage = function(e) {
       beatsCount: beatData.beats.length,
       detectedBeats: beatData.beats,
       energy: beatData.energy,
-      audioURL,
       createdAt: Date.now(),
     };
-
-    loadingText.textContent = 'Saving to cloud...';
     await db.collection('community_songs').doc(songId).set(songData);
 
     loadingText.textContent = 'Done!';
@@ -1445,13 +1465,22 @@ async function loadCommunitySongs() {
   try {
     const snap = await db.collection('community_songs').orderBy('createdAt', 'desc').get();
     let html = '';
+    const checkPromises = [];
+    const songEntries = [];
     snap.forEach(doc => {
       const s = doc.data();
+      songEntries.push(s);
+      checkPromises.push(hasLocalAudio(s.songId));
+    });
+    const localFlags = await Promise.all(checkPromises);
+    songEntries.forEach((s, idx) => {
       const dur = Math.round(s.duration || 0);
       const min = Math.floor(dur / 60);
       const sec = dur % 60;
+      const isLocal = localFlags[idx];
+      const localTag = isLocal ? '' : ' <span style="color:#f59e0b;font-size:11px">[need upload]</span>';
       html += `<div class="song-card" onclick="playCommunitySong('${s.songId}')">
-        <div class="song-name">${s.name}</div>
+        <div class="song-name">${s.name}${localTag}</div>
         <div class="song-meta"><span class="lv-badge ${getLevelClass(s.level)}">LV${s.level}</span> ${s.bpm} BPM \u00B7 ${min}:${sec.toString().padStart(2,'0')} \u00B7 ${s.beatsCount} beats</div>
         <div class="song-uploader">by ${s.uploaderName || 'Unknown'} \u00B7 ${Math.round((s.confidence || 0) * 100)}% match</div>
       </div>`;
@@ -1471,20 +1500,18 @@ async function playCommunitySong(songId) {
     const loadingText = document.getElementById('loadingText');
     overlay.classList.add('active');
     initAudio();
-    let audioBuffer;
-    if (songData.audioURL) {
-      loadingText.textContent = 'Downloading audio...';
-      const resp = await fetch(songData.audioURL);
-      if (!resp.ok) throw new Error('Download failed: ' + resp.status);
-      const arrayBuf = await resp.arrayBuffer();
-      loadingText.textContent = 'Decoding audio...';
-      audioBuffer = await audioCtx.decodeAudioData(arrayBuf);
-    } else {
-      loadingText.textContent = 'Audio not available on cloud.\nAsk uploader to re-upload.';
+    loadingText.textContent = 'Loading local audio...';
+    const wavBlob = await loadLocalAudio(songId);
+    if (!wavBlob) {
       overlay.classList.remove('active');
-      alert('This song has no audio file uploaded to the cloud. Only the uploader can play it locally.');
+      const input = document.getElementById('uploadInput');
+      const doUpload = confirm('This song is not on your device yet.\nPlease upload the same audio file to play it.');
+      if (doUpload) input.click();
       return;
     }
+    loadingText.textContent = 'Decoding audio...';
+    const arrayBuf = await wavBlob.arrayBuffer();
+    const audioBuffer = await audioCtx.decodeAudioData(arrayBuf);
     loadingText.textContent = 'Ready!';
     const beatData = {
       bpm: songData.bpm,
